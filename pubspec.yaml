@@ -2,8 +2,8 @@ name: vector_tile
 version: 0.0.1
 description: >-
   A simple Dart package to encode & decode Mapbox Vector Tile, it refers to a specification developed by MapBox (https://github.com/mapbox/vector-tile-spec).
-homepage: https://example-pet-store.com/newtify
-documentation: https://example-pet-store.com/newtify/docs
+homepage: https://github.com/saigontek/dart-vector-tile
+documentation: https://github.com/saigontek/dart-vector-tile
 environment:
   sdk: '>=2.7.0 <3.0.0'
 dependencies:
