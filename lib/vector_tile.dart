@@ -36,14 +36,12 @@ VectorTile_Feature createVectorTileFeature({
   List<int> tags,
   VectorTile_GeomType type,
   List<int> geometry,
-  List<int> raster,
 }) {
   return VectorTile_Feature(
     id: id,
     tags: tags,
     type: type,
     geometry: geometry,
-    raster: raster,
   );
 }
 

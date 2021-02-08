@@ -14,7 +14,6 @@ main() async {
       tags: [0, 96, 1, 348],
       type: VectorTile_GeomType.POINT,
       geometry: [9, 8058, 1562],
-      // raster: [1, 2],
     ),
   ];
   

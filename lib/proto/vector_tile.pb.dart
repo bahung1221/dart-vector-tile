@@ -151,7 +151,6 @@ class VectorTile_Feature extends $pb.GeneratedMessage {
     ..p<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'tags', $pb.PbFieldType.KU3)
     ..e<VectorTile_GeomType>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'type', $pb.PbFieldType.OE, defaultOrMaker: VectorTile_GeomType.UNKNOWN, valueOf: VectorTile_GeomType.valueOf, enumValues: VectorTile_GeomType.values)
     ..p<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'geometry', $pb.PbFieldType.KU3)
-    ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'raster', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -161,7 +160,6 @@ class VectorTile_Feature extends $pb.GeneratedMessage {
     $core.Iterable<$core.int> tags,
     VectorTile_GeomType type,
     $core.Iterable<$core.int> geometry,
-    $core.List<$core.int> raster,
   }) {
     final _result = create();
     if (id != null) {
@@ -175,9 +173,6 @@ class VectorTile_Feature extends $pb.GeneratedMessage {
     }
     if (geometry != null) {
       _result.geometry.addAll(geometry);
-    }
-    if (raster != null) {
-      _result.raster = raster;
     }
     return _result;
   }
@@ -225,15 +220,6 @@ class VectorTile_Feature extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(4)
   $core.List<$core.int> get geometry => $_getList(3);
-
-  @$pb.TagNumber(5)
-  $core.List<$core.int> get raster => $_getN(4);
-  @$pb.TagNumber(5)
-  set raster($core.List<$core.int> v) { $_setBytes(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasRaster() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearRaster() => clearField(5);
 }
 
 class VectorTile_Layer extends $pb.GeneratedMessage {
