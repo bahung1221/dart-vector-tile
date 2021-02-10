@@ -4,7 +4,7 @@ import '../../lib/vector_tile.dart';
 
 /// Read & Decode given vector tile file
 void decode() async {
-  VectorTile tile = await decodeVectorTile(path: '../gen/tile.pbf');
+  VectorTile tile = await decodeVectorTile(path: '../data/sample.pbf');
 
   print(tile.toString());
 }
