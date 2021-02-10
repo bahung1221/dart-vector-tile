@@ -1,5 +1,5 @@
 ## Dart Vector Tile
-Simple package to `encode & decode` vector tiles. based on [Mapbox Vector Tile specification 2.1](https://github.com/mapbox/vector-tile-spec).
+Simple package to `encode & decode` vector tiles. A implemention of [Mapbox Vector Tile specification 2.1](https://github.com/mapbox/vector-tile-spec).
 
 ### Decode
 Decode an vector tile file, either `.pbf` or `.mvt` should work:
