@@ -52,28 +52,42 @@ main() async {
 }
 ```
 
-### Sample VectorTile fields (As JSON):
+### Sample VectorTile decoded (as JSON):
 ```json
 {
-    "layers": {
-        "name": "building",
-        "features": [{
-            "id": 31162829580,
-            "tags": [0, 96, 1, 348],
-            "type": "POINT",
-            "geometry": [9, 8058, 1562]
-        }],
-        "keys": ["render_height", "render_min_height"],
-        "values": [
-            {
-                "intValue": 65
-            },
-            {
-                "stringValue": "basketball"
-            }
+  "layers": [
+    {
+      "name": "poi",
+      "features": {
+        "id": 31162829580,
+        "tags": [
+          0,
+          0,
+          1,
+          1
         ],
-        "extent": 4096,
-        "version": 2
+        "type": "POINT",
+        "geometry": [
+          9,
+          8058,
+          1562
+        ]
+      },
+      "keys": [
+        "render_height",
+        "name"
+      ],
+      "values": [
+        {
+          "intValue": 65
+        },
+        {
+          "stringValue": "basketball"
+        }
+      ],
+      "extent": 4096,
+      "version": 2
     }
+  ]
 }
 ```

@@ -1,8 +1,16 @@
 import 'package:fixnum/fixnum.dart';
 
-import '../lib/vector_tile.dart';
+import '../../lib/vector_tile.dart';
 
-main() async {
+/// Read & Decode given vector tile file
+void decode() async {
+  VectorTile tile = await decodeVectorTile(path: '../gen/tile.pbf');
+
+  print(tile.toString());
+}
+
+/// Create & Encode a set of vector tile data
+void encode() async {
   var values = [
     createVectorTileValue(intValue: Int64(65)),
     createVectorTileValue(stringValue: 'basketball'),
@@ -11,7 +19,7 @@ main() async {
   var features = [
     createVectorTileFeature(
       id: Int64(31162829580),
-      tags: [0, 96, 1, 348],
+      tags: [0, 0, 1, 1],
       type: VectorTile_GeomType.POINT,
       geometry: [9, 8058, 1562],
     ),
@@ -19,10 +27,10 @@ main() async {
   
   var layers = [
     createVectorTileLayer(
-      name: 'building',
+      name: 'poi',
       extent: 4096,
       version: 2,
-      keys: ['render_height', 'render_min_height'],
+      keys: ['render_height', 'name'],
       values: values,
       features: features,
     ),
@@ -31,5 +39,11 @@ main() async {
   var tile = createVectorTile(layers: layers);
 
   // Save to disk
-  await encodeVectorTile(path: './gen/tile.pbf', tile: tile);
+  await encodeVectorTile(path: '../gen/tile.pbf', tile: tile);
+}
+
+
+main() {
+  // encode();
+  decode();
 }
