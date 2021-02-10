@@ -5,9 +5,9 @@ enum GeometryType {
 }
 
 class Geometry {
-  final type = null;
+  final GeometryType type = null;
 
-  factory Geometry.Point({List<double> coordinate}) = GeometryPoint;
+  factory Geometry.Point({List<double> coordinates}) = GeometryPoint;
   factory Geometry.MultiPoint({List<List<double>> coordinates}) = GeometryMultiPoint;
   factory Geometry.LineString({List<List<double>> coordinates}) = GeometryLineString;
   factory Geometry.MultiLineString({List<List<List<double>>> coordinates}) = GeometryMultiLineString;
@@ -19,10 +19,10 @@ class Geometry {
 
 class GeometryPoint extends Geometry {
   final type = GeometryType.Point;
-  List<double> coordinate;
+  List<double> coordinates;
 
   GeometryPoint({
-    @required this.coordinate,
+    @required this.coordinates,
   }) : super._();
 }
 
@@ -36,7 +36,7 @@ class GeometryMultiPoint extends Geometry {
 }
 
 class GeometryLineString extends Geometry {
-  final type = GeometryType.Polygon;
+  final type = GeometryType.LineString;
   List<List<double>> coordinates;
 
   GeometryLineString({
@@ -45,7 +45,7 @@ class GeometryLineString extends Geometry {
 }
 
 class GeometryMultiLineString extends Geometry {
-  final type = GeometryType.MultiPolygon;
+  final type = GeometryType.MultiLineString;
   List<List<List<double>>> coordinates;
 
   GeometryMultiLineString({

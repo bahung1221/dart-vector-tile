@@ -1,4 +1,5 @@
 import 'package:fixnum/fixnum.dart';
+import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_layer.dart';
 
 import '../../lib/vector_tile.dart';
@@ -7,13 +8,44 @@ import '../../lib/vector_tile.dart';
 void decode() async {
   VectorTile tile = await VectorTile.fromPath(path: '../data/12-3262-1923.pbf');
 
-  VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'place');
+  VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'transportation');
+
+
+  var feature = layer.features[0];
+  feature.decode();
+  var geojson = feature.toGeoJsonLineString(3262, 1923, 12);
+
+  // print(geojson.type);
+  // print(geojson.properties);
+  // print(geojson.geometry.type);
+  // print(geojson.geometry.coordinates);
 
   layer.features.forEach((feature) { 
     feature.decode();
-    feature.toGeoJson(3262, 1923, 12);
+    if (feature.geometryType == GeometryType.Point) {
+      var geojson = feature.toGeoJsonPoint(3262, 1923, 12);
+      print(geojson.type);
+      print(geojson.properties);
+      print(geojson.geometry.type);
+      print(geojson.geometry.coordinates);
+    }
 
-    // print(feature.geometryPoint.coordinate);
+    if (feature.geometryType == GeometryType.LineString) {
+      var geojson = feature.toGeoJsonLineString(3262, 1923, 12);
+      print(geojson.type);
+      print(geojson.properties);
+      print(geojson.geometry.type);
+      print(geojson.geometry.coordinates);
+    }
+
+    if (feature.geometryType == GeometryType.MultiLineString) {
+      var geojson = feature.toGeoJsonMultiLineString(3262, 1923, 12);
+      print(geojson.type);
+      print(geojson.properties);
+      print(geojson.geometry.type);
+      print(geojson.geometry.coordinates);
+    }
+
   });
 
 }
