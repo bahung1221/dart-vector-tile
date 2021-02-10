@@ -1,12 +1,21 @@
 import 'package:fixnum/fixnum.dart';
+import 'package:vector_tile/vector_tile_layer.dart';
 
 import '../../lib/vector_tile.dart';
 
 /// Read & Decode given vector tile file
 void decode() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample.pbf');
+  VectorTile tile = await VectorTile.fromPath(path: '../data/12-3262-1923.pbf');
 
-  print(tile.toString());
+  VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'place');
+
+  layer.features.forEach((feature) { 
+    feature.decode();
+    feature.toGeoJson(3262, 1923, 12);
+
+    // print(feature.geometryPoint.coordinate);
+  });
+
 }
 
 // /// Create & Encode a set of vector tile data

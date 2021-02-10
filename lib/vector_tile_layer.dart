@@ -40,7 +40,8 @@ class VectorTileLayer {
         id: feature.id,
         tags: feature.tags,
         type: VectorTileGeomTypeExtension.fromRaw(feature.type),
-        geometry: feature.geometry
+        geometryList: feature.geometry,
+        extent: rawLayer.extent,
       );
     }).toList();
     
