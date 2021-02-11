@@ -1,5 +1,5 @@
 import 'package:fixnum/fixnum.dart';
-import 'package:vector_tile/raw/raw_vector_tile.dart' as Raw;
+import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
 
 class VectorTileValue {
   String stringValue;
@@ -20,8 +20,8 @@ class VectorTileValue {
     bool this.boolValue,
   });
 
-  Raw.VectorTile_Value toRaw() {
-    return Raw.VectorTile_Value(
+  raw.VectorTile_Value toRaw() {
+    return raw.VectorTile_Value(
       stringValue: this.stringValue,
       floatValue: this.floatValue,
       doubleValue: this.doubleValue,

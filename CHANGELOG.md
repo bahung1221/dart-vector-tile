@@ -1,9 +1,16 @@
 # Changelog
 
+## v0.1.2 - 2021-02-12
+
+### Fixed
+- Change namespace import from `PascalCase` to `snake_case`.
+
+
 ## v0.1.1 - 2021-02-12
 
 ### Added
 - Add properties decode for feature GeoJson.
+
 
 ## v0.1.0 - 2021-02-11
 

@@ -2,12 +2,11 @@ import 'dart:math';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:meta/meta.dart';
-import 'package:vector_tile/raw/raw_vector_tile.dart' as Raw;
+import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
 import 'package:vector_tile/util/command.dart';
 import 'package:vector_tile/util/geo_json.dart';
 import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_geom_type.dart';
-import 'package:vector_tile/vector_tile_layer.dart';
 import 'package:vector_tile/vector_tile_value.dart';
 
 class VectorTileFeature {
@@ -37,8 +36,8 @@ class VectorTileFeature {
     this.values,
   });
 
-  Raw.VectorTile_Feature toRaw() {
-    return Raw.VectorTile_Feature(
+  raw.VectorTile_Feature toRaw() {
+    return raw.VectorTile_Feature(
       id: this.id,
       tags: this.tags,
       type: this.type.toRaw(),

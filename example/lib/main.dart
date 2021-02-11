@@ -4,7 +4,7 @@ import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_layer.dart';
 
 import '../../lib/vector_tile.dart';
-import '../../lib/raw/raw_vector_tile.dart' as Raw;
+import '../../lib/raw/raw_vector_tile.dart' as raw;
 
 /// Read & Decode given vector tile file
 /// Decode raw features to GeoJson format
@@ -89,21 +89,21 @@ void decodeForAllGeoJsonType() async {
 /// Create & Encode a set of vector tile data from raw format
 void encode() async {
   var values = [
-    Raw.createVectorTileValue(intValue: Int64(65)),
-    Raw.createVectorTileValue(stringValue: 'basketball'),
+    raw.createVectorTileValue(intValue: Int64(65)),
+    raw.createVectorTileValue(stringValue: 'basketball'),
   ];
   
   var features = [
-    Raw.createVectorTileFeature(
+    raw.createVectorTileFeature(
       id: Int64(31162829580),
       tags: [0, 0, 1, 1],
-      type: Raw.VectorTile_GeomType.POINT,
+      type: raw.VectorTile_GeomType.POINT,
       geometry: [9, 8058, 1562],
     ),
   ];
   
   var layers = [
-    Raw.createVectorTileLayer(
+    raw.createVectorTileLayer(
       name: 'poi',
       extent: 4096,
       version: 2,
@@ -113,10 +113,10 @@ void encode() async {
     ),
   ];
 
-  var tile = Raw.createVectorTile(layers: layers);
+  var tile = raw.createVectorTile(layers: layers);
 
   // Save to disk
-  await Raw.encodeVectorTile(path: '../gen/tile.pbf', tile: tile);
+  await raw.encodeVectorTile(path: '../gen/tile.pbf', tile: tile);
 }
 
 
