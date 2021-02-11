@@ -7,6 +7,7 @@ import 'package:vector_tile/util/command.dart';
 import 'package:vector_tile/util/geo_json.dart';
 import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_geom_type.dart';
+import 'package:vector_tile/vector_tile_layer.dart';
 import 'package:vector_tile/vector_tile_value.dart';
 
 class VectorTileFeature {
@@ -22,14 +23,18 @@ class VectorTileFeature {
 
   // Additional
   int extent;
+  List<String> keys;
+  List<VectorTileValue> values;
 
   VectorTileFeature({
     @required this.id,
     @required this.tags,
     this.type,
     this.geometryList,
-    
+
     this.extent,
+    this.keys,
+    this.values,
   });
 
   Raw.VectorTile_Feature toRaw() {
@@ -56,6 +61,8 @@ class VectorTileFeature {
   ///     var coordinates = (geometry as GeometryPoint).coordinates;
   ///    ```
   T decodeGeometry<T extends Geometry>() {
+    this.decodeProperties();
+
     switch (this.type) {
       case VectorTileGeomType.POINT:
         List<List<int>> coords = this.decodePoint();
@@ -132,6 +139,29 @@ class VectorTileFeature {
     }
 
     return this.geometry as T;
+  }
+
+  /// Decode properties from feature tags and key/value pairs got from parent layer
+  /// 
+  /// Return key/value pairs
+  List<Map<String, VectorTileValue>> decodeProperties() {
+    int length = this.tags.length;
+    List<Map<String, VectorTileValue>> properties = [];
+
+    for (int i = 0; i < length;) {
+      int keyIndex = this.tags[i];
+      int valueIndex = this.tags[i + 1];
+
+      properties.add(
+        {
+          this.keys[keyIndex]: this.values[valueIndex],
+        }
+      );
+      i = i + 2;
+    }
+
+    this.properties = properties;
+    return properties;
   }
 
   /// Decode LineString geometry
@@ -299,7 +329,7 @@ class VectorTileFeature {
 
         return GeoJsonPoint(
           geometry: this.geometry,
-          properties: <Map<String, VectorTileValue>>[],
+          properties: this.properties,
         ) as T;
       case GeometryType.MultiPoint:
         (this.geometry as GeometryMultiPoint).coordinates = 
@@ -312,7 +342,7 @@ class VectorTileFeature {
 
         return GeoJsonMultiPoint(
           geometry: this.geometry,
-          properties: <Map<String, VectorTileValue>>[],
+          properties: this.properties,
         ) as T;
       case GeometryType.LineString:
         (this.geometry as GeometryLineString).coordinates = 
@@ -320,7 +350,7 @@ class VectorTileFeature {
 
         return GeoJsonLineString(
           geometry: this.geometry,
-          properties: <Map<String, VectorTileValue>>[],
+          properties: this.properties,
         ) as T;
 
       case GeometryType.MultiLineString:
@@ -332,7 +362,7 @@ class VectorTileFeature {
 
         return GeoJsonMultiLineString(
           geometry: this.geometry,
-          properties: <Map<String, VectorTileValue>>[],
+          properties: this.properties,
         ) as T;
       case GeometryType.Polygon:
         (this.geometry as GeometryPolygon).coordinates = 
@@ -343,7 +373,7 @@ class VectorTileFeature {
 
         return GeoJsonPolygon(
           geometry: this.geometry,
-          properties: <Map<String, VectorTileValue>>[],
+          properties: this.properties,
         ) as T;
       case GeometryType.MultiPolygon:
         (this.geometry as GeometryMultiPolygon).coordinates = 
@@ -356,7 +386,7 @@ class VectorTileFeature {
 
         return GeoJsonMultiPolygon(
           geometry: this.geometry,
-          properties: <Map<String, VectorTileValue>>[],
+          properties: this.properties,
         ) as T;
       default:
     }

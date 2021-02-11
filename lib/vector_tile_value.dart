@@ -31,4 +31,24 @@ class VectorTileValue {
       boolValue: this.boolValue,
     );
   }
+
+  String get dartStringValue {
+    return this.stringValue;
+  }
+
+  Int64 get dartIntValue {
+    return this.intValue ?? this.uintValue ?? this.sintValue;
+  }
+
+  double get dartDoubleValue {
+    if (this.floatValue != null) {
+      return this.floatValue.toDouble();
+    }
+    
+    return this.doubleValue;
+  }
+
+  bool get dartBoolValue {
+    return this.boolValue;
+  }
 }

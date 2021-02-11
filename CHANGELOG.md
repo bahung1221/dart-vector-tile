@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.0 - 2021-02-12
+
+### Added
+- Add properties decode for feature GeoJson.
+
 ## v0.1.0 - 2021-02-11
 
 ### BREAKING CHANGE
