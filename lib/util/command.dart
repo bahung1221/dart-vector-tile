@@ -1,11 +1,13 @@
 import 'package:meta/meta.dart';
 
+/// Representation for commands used to encode/decode geometry coordinates
 class CommandID {
   static final int MoveTo = 1;
   static final int LineTo = 2;
   static final int ClosePath = 7;
 }
 
+/// Command and its utils
 class Command {
   int id;
   int count;

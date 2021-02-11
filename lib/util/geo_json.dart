@@ -44,3 +44,21 @@ class GeoJsonMultiLineString extends GeoJson {
     @required this.geometry
   }) : super(properties: properties);
 }
+
+class GeoJsonPolygon extends GeoJson {
+  GeometryPolygon geometry; 
+
+  GeoJsonPolygon({
+    @required properties,
+    @required this.geometry
+  }) : super(properties: properties);
+}
+
+class GeoJsonMultiPolygon extends GeoJson {
+  GeometryMultiPolygon geometry; 
+
+  GeoJsonMultiPolygon({
+    @required properties,
+    @required this.geometry
+  }) : super(properties: properties);
+}

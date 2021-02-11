@@ -41,11 +41,27 @@ class VectorTileFeature {
     );
   }
 
-  void decode() {
-    this.decodeGeometry();
-  }
-
-  void decodeGeometry() {
+  /// Decode feature geometry data
+  /// 
+  /// By default geometry doesn't decoded
+  /// So you must call this method on-demand if you need it!
+  /// 
+  /// Properties that was decoded through this method:
+  /// - feature.geometryType
+  /// - feature.geometry
+  /// 
+  /// Return generic Geometry type, there are two ways to to read data returned from this method:
+  /// - Explicit given a generic type:
+  ///    ```
+  ///     var geometry = feature.decodeGeometry<GeometryPoint>();
+  ///     var coordinates = geometry.coordinates;
+  ///    ```
+  /// - Cast to specific GeoJson type after got returned data:
+  ///    ```
+  ///     var geometry = feature.decodeGeometry();
+  ///     var coordinates = (geometry as GeometryPoint).coordinates;
+  ///    ```
+  T decodeGeometry<T extends Geometry>() {
     switch (this.type) {
       case VectorTileGeomType.POINT:
         List<List<int>> coords = this.decodePoint();
@@ -120,8 +136,13 @@ class VectorTileFeature {
       default:
         print('only implement point type');
     }
+
+    return this.geometry as T;
   }
 
+  /// Decode LineString geometry
+  /// 
+  /// @docs: https://github.com/mapbox/vector-tile-spec/tree/master/2.1#4342-point-geometry-type
   List<List<int>> decodePoint() {
     int length = 0;
     int commandId = 0;
@@ -159,6 +180,9 @@ class VectorTileFeature {
     return coords;
   }
 
+  /// Decode LineString geometry
+  /// 
+  /// @docs: https://github.com/mapbox/vector-tile-spec/tree/master/2.1#4343-linestring-geometry-type
   List<List<List<int>>> decodeLineString() {
     int length = 0;
     int commandId = 0;
@@ -195,6 +219,9 @@ class VectorTileFeature {
     return coords;
   }
 
+  /// Decode polygon geometry
+  /// 
+  /// @docs: https://github.com/mapbox/vector-tile-spec/tree/master/2.1#4344-polygon-geometry-type
   List<List<List<List<int>>>> decodePolygon() {
     int length = 0;
     int commandId = 0;
@@ -240,25 +267,59 @@ class VectorTileFeature {
     return polygons;
   }
 
-  GeoJson toGeoJson(int x, int y, int z) {
+  /// Get GeoJson data from this feature
+  /// 
+  /// x, y, z: is tile numbers and tile zoom
+  /// Normally, you already know that info when you want to parse vector tile files
+  /// x, y, z was used to calculate lon/lat pairs
+  /// 
+  /// Return generic GeoJson type, there are two ways to to read data returned from this method:
+  /// - Explicit given a generic type:
+  ///    ```
+  ///     var geojson = feature.toGeoJson<GeoJsonPoint>(3262, 1923, 12);
+  ///     var coordinates = geojson.geometry.coordinates;
+  ///    ```
+  /// - Cast to specific GeoJson type after got returned data:
+  ///    ```
+  ///     var geojson = feature.toGeoJson(3262, 1923, 12);
+  ///     var coordinates = (geojson as GeoJsonPoint).geometry.coordinates;
+  ///    ```
+  T toGeoJson<T extends GeoJson>(int x, int y, int z) {
+    if (this.geometry == null) {
+      this.decodeGeometry();
+    }
+
     int size = this.extent * pow(2, z);
     int x0 = this.extent * x;
     int y0 = this.extent * y;
 
     switch (this.geometryType) {
       case GeometryType.Point:
-        (this.geometry as GeometryPoint).coordinates = 
+        (this.geometry as GeometryPoint).coordinates =
           this.projectPoint(
-            size, 
-            x0, 
-            y0, 
+            size,
+            x0,
+            y0,
             (this.geometry as GeometryPoint).coordinates
           );
 
         return GeoJsonPoint(
           geometry: this.geometry,
           properties: <Map<String, VectorTileValue>>[],
-        );
+        ) as T;
+      case GeometryType.MultiPoint:
+        (this.geometry as GeometryMultiPoint).coordinates = 
+          this.project(
+            size, 
+            x0, 
+            y0, 
+            (this.geometry as GeometryMultiPoint).coordinates
+          );
+
+        return GeoJsonMultiPoint(
+          geometry: this.geometry,
+          properties: <Map<String, VectorTileValue>>[],
+        ) as T;
       case GeometryType.LineString:
         (this.geometry as GeometryLineString).coordinates = 
           this.project(size, x0, y0, (this.geometry as GeometryLineString).coordinates);
@@ -266,7 +327,7 @@ class VectorTileFeature {
         return GeoJsonLineString(
           geometry: this.geometry,
           properties: <Map<String, VectorTileValue>>[],
-        );
+        ) as T;
 
       case GeometryType.MultiLineString:
         (this.geometry as GeometryMultiLineString).coordinates = 
@@ -278,13 +339,38 @@ class VectorTileFeature {
         return GeoJsonMultiLineString(
           geometry: this.geometry,
           properties: <Map<String, VectorTileValue>>[],
-        );
+        ) as T;
+      case GeometryType.Polygon:
+        (this.geometry as GeometryPolygon).coordinates = 
+          (this.geometry as GeometryPolygon).coordinates.map(
+            (line) => 
+              this.project(size, x0, y0, line)
+          ).toList();
+
+        return GeoJsonPolygon(
+          geometry: this.geometry,
+          properties: <Map<String, VectorTileValue>>[],
+        ) as T;
+      case GeometryType.MultiPolygon:
+        (this.geometry as GeometryMultiPolygon).coordinates = 
+          (this.geometry as GeometryMultiPolygon).coordinates.map(
+            (polygon) => 
+              polygon.map(
+                (ring) => this.project(size, x0, y0, ring)
+              ).toList()
+          ).toList();
+
+        return GeoJsonMultiPolygon(
+          geometry: this.geometry,
+          properties: <Map<String, VectorTileValue>>[],
+        ) as T;
       default:
     }
 
     return null;
   }
 
+  /// Convert list of point into lon/lat points
   List<List<double>> project(size, x0, y0, List<List<double>> line) {
     // Deep clone
     List<List<double>> result = line.map(
@@ -293,13 +379,17 @@ class VectorTileFeature {
     ).toList();
 
     for (var i = 0; i < line.length; i++) {
-        List<double> point = line[i];
-        result[i] = this.projectPoint(size, x0, y0, point);
+      List<double> point = line[i];
+      result[i] = this.projectPoint(size, x0, y0, point);
     }
 
     return result;
   }
 
+  /// Convert given point into lon/lat point
+  /// 
+  /// See `Tile numbers to lon./lat.` section in documentation link below
+  /// @docs: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
   List<double> projectPoint(size, x0, y0, List<double> point) {
     double y2 = 180 - (point[1] + y0) * 360 / size;
 
@@ -309,9 +399,7 @@ class VectorTileFeature {
     ];
   }
 
-  /**
-   * Implements https://en.wikipedia.org/wiki/Shoelace_formula
-   */
+  /// Implements https://en.wikipedia.org/wiki/Shoelace_formula
   bool isCCW({@required List<List<int>> ring}) {
     int i = -1;
     int ccw = ring.sublist(1, ring.length - 1).fold(0, (sum, point) {

@@ -1,4 +1,4 @@
-import 'package:fixnum/fixnum.dart';
+// import 'package:fixnum/fixnum.dart';
 import 'package:vector_tile/util/geo_json.dart';
 import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_layer.dart';
@@ -8,38 +8,45 @@ import '../../lib/vector_tile.dart';
 /// Read & Decode given vector tile file
 void decode() async {
   VectorTile tile = await VectorTile.fromPath(path: '../data/12-3262-1923.pbf');
-
   VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'transportation');
 
+  layer.features.forEach((feature) {
+    var geometry = feature.decodeGeometry();
+    if (feature.geometryType == GeometryType.Point) {
 
-  var feature = layer.features[0];
-  feature.decode();
+      print((geometry as GeometryPoint).coordinates);
 
-  layer.features.forEach((feature) { 
-    feature.decode();
+      var geojson = feature.toGeoJson<GeoJsonPoint>(3262, 1923, 12);
 
-    var geojson = feature.toGeoJson(3262, 1923, 12);
-    if (geojson.type is GeoJsonPoint) {
+      print(geojson.type);
+      print(geojson.properties);
+      print(geojson.geometry.type);
+      print(geojson.geometry.coordinates);
       print(geojson.runtimeType);
-      print((geojson as GeoJsonPoint).type);
-      print((geojson as GeoJsonPoint).properties);
-      print((geojson as GeoJsonPoint).geometry.type);
-      print((geojson as GeoJsonPoint).geometry.coordinates);
     }
 
     if (feature.geometryType == GeometryType.LineString) {
-      print(geojson.runtimeType);
-      print((geojson as GeoJsonLineString).type);
-      print((geojson as GeoJsonLineString).properties);
-      print((geojson as GeoJsonLineString).geometry.type);
-      print((geojson as GeoJsonLineString).geometry.coordinates);
+      var geometry = feature.decodeGeometry<GeometryLineString>();
+
+      print('====');
+      print(geometry.coordinates);
+      print('====');
+
+      var geojson = feature.toGeoJson<GeoJsonLineString>(3262, 1923, 12);
+
+      print(geojson.type);
+      print(geojson.properties);
+      print(geojson.geometry.type);
+      print(geojson.geometry.coordinates);
     }
 
     if (feature.geometryType == GeometryType.MultiLineString) {
-      print((geojson as GeoJsonMultiLineString).type);
-      print((geojson as GeoJsonMultiLineString).properties);
-      print((geojson as GeoJsonMultiLineString).geometry.type);
-      print((geojson as GeoJsonMultiLineString).geometry.coordinates);
+      var geojson = feature.toGeoJson<GeoJsonMultiLineString>(3262, 1923, 12);
+
+      print(geojson.type);
+      print(geojson.properties);
+      print(geojson.geometry.type);
+      print(geojson.geometry.coordinates);
     }
 
   });
