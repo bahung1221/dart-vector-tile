@@ -15,15 +15,9 @@ class VectorTileFeature {
   VectorTileGeomType type;
   List<int> geometryList;
 
-  // GeoJSON - Each feature have exacly one geometry type, other geometry will be null
+  // Decoded properties
   GeometryType geometryType;
-  GeometryPoint geometryPoint;
-  GeometryMultiPoint geometryMultiPoint;
-  GeometryLineString geometryLineString;
-  GeometryMultiLineString geometryMultiLineString;
-  GeometryPolygon geometryPolygon;
-  GeometryMultiPolygon geometryMultiPolygon;
-
+  Geometry geometry;
   List<Map<String, VectorTileValue>> properties;
 
   // Additional
@@ -57,14 +51,14 @@ class VectorTileFeature {
         List<List<int>> coords = this.decodePoint();
 
         if (coords.length <= 1) {
-          this.geometryPoint = Geometry.Point(
+          this.geometry = Geometry.Point(
             coordinates: coords[0].map((intVal) => intVal.toDouble()).toList()
           );
           this.geometryType = GeometryType.Point;
           break;
         }
 
-        this.geometryMultiPoint = Geometry.MultiPoint(
+        this.geometry = Geometry.MultiPoint(
           coordinates: coords.map(
             (coord) => coord.map((intVal) => intVal.toDouble())
           )
@@ -75,7 +69,7 @@ class VectorTileFeature {
         List<List<List<int>>> coords = this.decodeLineString();
 
         if (coords.length <= 1) {
-          this.geometryLineString = Geometry.LineString(
+          this.geometry = Geometry.LineString(
             coordinates: coords[0].map(
               (point) => point.map((intVal) => intVal.toDouble()).toList(),
             ).toList()
@@ -84,7 +78,7 @@ class VectorTileFeature {
           break;
         }
 
-        this.geometryMultiLineString = Geometry.MultiLineString(
+        this.geometry = Geometry.MultiLineString(
           coordinates: coords.map(
             (line) =>
               line.map(
@@ -98,7 +92,7 @@ class VectorTileFeature {
         List<List<List<List<int>>>> coords = this.decodePolygon();
 
         if (coords.length <= 1) {
-          this.geometryPolygon = Geometry.Polygon(
+          this.geometry = Geometry.Polygon(
             coordinates: coords[0].map(
               (ring) =>
                 ring.map(
@@ -110,7 +104,7 @@ class VectorTileFeature {
           break;
         }
 
-        this.geometryMultiPolygon = Geometry.MultiPolygon(
+        this.geometry = Geometry.MultiPolygon(
           coordinates: coords.map(
             (polygon) =>
               polygon.map(
@@ -246,46 +240,49 @@ class VectorTileFeature {
     return polygons;
   }
 
-  GeoJsonPoint toGeoJsonPoint(int x, int y, int z) {
+  GeoJson toGeoJson(int x, int y, int z) {
     int size = this.extent * pow(2, z);
     int x0 = this.extent * x;
     int y0 = this.extent * y;
 
-    this.geometryPoint.coordinates = this.projectPoint(size, x0, y0, this.geometryPoint.coordinates);
+    switch (this.geometryType) {
+      case GeometryType.Point:
+        (this.geometry as GeometryPoint).coordinates = 
+          this.projectPoint(
+            size, 
+            x0, 
+            y0, 
+            (this.geometry as GeometryPoint).coordinates
+          );
 
-    return GeoJsonPoint(
-      geometry: this.geometryPoint,
-      properties: <Map<String, VectorTileValue>>[],
-    );
-  }
+        return GeoJsonPoint(
+          geometry: this.geometry,
+          properties: <Map<String, VectorTileValue>>[],
+        );
+      case GeometryType.LineString:
+        (this.geometry as GeometryLineString).coordinates = 
+          this.project(size, x0, y0, (this.geometry as GeometryLineString).coordinates);
 
-  GeoJsonLineString toGeoJsonLineString(int x, int y, int z) {
-    int size = this.extent * pow(2, z);
-    int x0 = this.extent * x;
-    int y0 = this.extent * y;
-    
-    this.geometryLineString.coordinates = this.project(size, x0, y0, this.geometryLineString.coordinates);
+        return GeoJsonLineString(
+          geometry: this.geometry,
+          properties: <Map<String, VectorTileValue>>[],
+        );
 
-    return GeoJsonLineString(
-      geometry: this.geometryLineString,
-      properties: <Map<String, VectorTileValue>>[],
-    );
-  }
+      case GeometryType.MultiLineString:
+        (this.geometry as GeometryMultiLineString).coordinates = 
+          (this.geometry as GeometryMultiLineString).coordinates.map(
+            (line) => 
+              this.project(size, x0, y0, line)
+          ).toList();
 
-  GeoJsonMultiLineString toGeoJsonMultiLineString(int x, int y, int z) {
-    int size = this.extent * pow(2, z);
-    int x0 = this.extent * x;
-    int y0 = this.extent * y;
-    
-    this.geometryMultiLineString.coordinates = this.geometryMultiLineString.coordinates.map(
-      (line) => 
-        this.project(size, x0, y0, line)
-    ).toList();
+        return GeoJsonMultiLineString(
+          geometry: this.geometry,
+          properties: <Map<String, VectorTileValue>>[],
+        );
+      default:
+    }
 
-    return GeoJsonMultiLineString(
-      geometry: this.geometryMultiLineString,
-      properties: <Map<String, VectorTileValue>>[],
-    );
+    return null;
   }
 
   List<List<double>> project(size, x0, y0, List<List<double>> line) {

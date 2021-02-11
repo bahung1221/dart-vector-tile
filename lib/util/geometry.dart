@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 enum GeometryType {
-  Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
+  Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon
 }
 
 class Geometry {
