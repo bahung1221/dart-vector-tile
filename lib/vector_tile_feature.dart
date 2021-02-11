@@ -50,13 +50,7 @@ class VectorTileFeature {
   /// - feature.geometryType
   /// - feature.geometry
   /// 
-  /// Return generic Geometry type, there are two ways to to read data returned from this method:
-  /// - Explicit given a generic type:
-  ///    ```
-  ///     var geometry = feature.decodeGeometry<GeometryPoint>();
-  ///     var coordinates = geometry.coordinates;
-  ///    ```
-  /// - Cast to specific GeoJson type after got returned data:
+  /// You must explicit cast Geometry type after got returned data:
   ///    ```
   ///     var geometry = feature.decodeGeometry();
   ///     var coordinates = (geometry as GeometryPoint).coordinates;
@@ -256,7 +250,7 @@ class VectorTileFeature {
       }
 
       if (length <= 0 && commandId == CommandID.LineTo) {
-        if (coords.isNotEmpty && this.isCCW(ring: ring)) {
+        if (coords.isNotEmpty && this._isCCW(ring: ring)) {
           polygons.add(coords);
           coords = [];
         }
@@ -296,7 +290,7 @@ class VectorTileFeature {
     switch (this.geometryType) {
       case GeometryType.Point:
         (this.geometry as GeometryPoint).coordinates =
-          this.projectPoint(
+          this._projectPoint(
             size,
             x0,
             y0,
@@ -309,7 +303,7 @@ class VectorTileFeature {
         ) as T;
       case GeometryType.MultiPoint:
         (this.geometry as GeometryMultiPoint).coordinates = 
-          this.project(
+          this._project(
             size, 
             x0, 
             y0, 
@@ -322,7 +316,7 @@ class VectorTileFeature {
         ) as T;
       case GeometryType.LineString:
         (this.geometry as GeometryLineString).coordinates = 
-          this.project(size, x0, y0, (this.geometry as GeometryLineString).coordinates);
+          this._project(size, x0, y0, (this.geometry as GeometryLineString).coordinates);
 
         return GeoJsonLineString(
           geometry: this.geometry,
@@ -333,7 +327,7 @@ class VectorTileFeature {
         (this.geometry as GeometryMultiLineString).coordinates = 
           (this.geometry as GeometryMultiLineString).coordinates.map(
             (line) => 
-              this.project(size, x0, y0, line)
+              this._project(size, x0, y0, line)
           ).toList();
 
         return GeoJsonMultiLineString(
@@ -344,7 +338,7 @@ class VectorTileFeature {
         (this.geometry as GeometryPolygon).coordinates = 
           (this.geometry as GeometryPolygon).coordinates.map(
             (line) => 
-              this.project(size, x0, y0, line)
+              this._project(size, x0, y0, line)
           ).toList();
 
         return GeoJsonPolygon(
@@ -356,7 +350,7 @@ class VectorTileFeature {
           (this.geometry as GeometryMultiPolygon).coordinates.map(
             (polygon) => 
               polygon.map(
-                (ring) => this.project(size, x0, y0, ring)
+                (ring) => this._project(size, x0, y0, ring)
               ).toList()
           ).toList();
 
@@ -371,7 +365,7 @@ class VectorTileFeature {
   }
 
   /// Convert list of point into lon/lat points
-  List<List<double>> project(size, x0, y0, List<List<double>> line) {
+  List<List<double>> _project(size, x0, y0, List<List<double>> line) {
     // Deep clone
     List<List<double>> result = line.map(
       (point) => 
@@ -380,7 +374,7 @@ class VectorTileFeature {
 
     for (var i = 0; i < line.length; i++) {
       List<double> point = line[i];
-      result[i] = this.projectPoint(size, x0, y0, point);
+      result[i] = this._projectPoint(size, x0, y0, point);
     }
 
     return result;
@@ -390,7 +384,7 @@ class VectorTileFeature {
   /// 
   /// See `Tile numbers to lon./lat.` section in documentation link below
   /// @docs: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-  List<double> projectPoint(size, x0, y0, List<double> point) {
+  List<double> _projectPoint(size, x0, y0, List<double> point) {
     double y2 = 180 - (point[1] + y0) * 360 / size;
 
     return [
@@ -400,7 +394,7 @@ class VectorTileFeature {
   }
 
   /// Implements https://en.wikipedia.org/wiki/Shoelace_formula
-  bool isCCW({@required List<List<int>> ring}) {
+  bool _isCCW({@required List<List<int>> ring}) {
     int i = -1;
     int ccw = ring.sublist(1, ring.length - 1).fold(0, (sum, point) {
       i++;
