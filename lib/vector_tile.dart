@@ -13,11 +13,9 @@ export 'package:vector_tile/util/geojson.dart';
 export 'package:vector_tile/util/geometry.dart';
 
 class VectorTile {
-  raw.VectorTile rawTile;
   List<VectorTileLayer> layers;
 
   VectorTile({
-    @required this.rawTile,
     @required this.layers,
   });
 
@@ -27,7 +25,20 @@ class VectorTile {
       return VectorTileLayer.fromRaw(rawLayer: rawLayer);
     }).toList();
 
-    return VectorTile(rawTile: rawTile, layers: layers);
+    return VectorTile(layers: layers);
+  }
+
+  static VectorTile fromGeoJson({
+    @required List<GeoJson> features,
+    @required String layerName,
+    @required String extent,
+    @required String version,
+  }) {
+    // TODO
+  }
+
+  Future<void> toPath({@required String path}) async {
+    
   }
 
   GeoJsonFeatureCollection toGeoJson({@required int x, @required int y, @required int z}) {

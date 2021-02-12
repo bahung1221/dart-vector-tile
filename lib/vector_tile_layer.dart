@@ -5,7 +5,6 @@ import 'package:vector_tile/vector_tile_feature.dart';
 import 'package:vector_tile/vector_tile_value.dart';
 
 class VectorTileLayer {
-  raw.VectorTile_Layer rawLayer;
   String name;
   int extent;
   int version;
@@ -14,7 +13,6 @@ class VectorTileLayer {
   List<VectorTileFeature> features;
 
   VectorTileLayer({
-    @required this.rawLayer,
     @required this.name,
     @required this.extent,
     @required this.version,
@@ -48,7 +46,6 @@ class VectorTileLayer {
     }).toList();
     
     return VectorTileLayer(
-      rawLayer: rawLayer,
       name: rawLayer.name,
       extent: rawLayer.extent,
       version: rawLayer.version,
