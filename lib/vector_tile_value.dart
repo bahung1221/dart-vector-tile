@@ -11,13 +11,13 @@ class VectorTileValue {
   bool boolValue;
   
   VectorTileValue({
-    String this.stringValue,
-    double this.floatValue,
-    double this.doubleValue,
-    Int64 this.intValue,
-    Int64 this.uintValue,
-    Int64 this.sintValue,
-    bool this.boolValue,
+    this.stringValue,
+    this.floatValue,
+    this.doubleValue,
+    this.intValue,
+    this.uintValue,
+    this.sintValue,
+    this.boolValue,
   });
 
   raw.VectorTile_Value toRaw() {

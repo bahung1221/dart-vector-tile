@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.3 - 2021-02-12
+
+### Added
+- Add `toGeoJson` method on `VectorTile` class to allow decode raw VectorTile format to GeoJson FeatureCollection.
+
+### Fixed
+- Fix type issues when call `map` method on `List` that returned a Iterator instead of a new List.
+
 ## v0.1.2 - 2021-02-12
 
 ### Fixed

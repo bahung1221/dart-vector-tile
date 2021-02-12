@@ -4,6 +4,7 @@ Package to `encode & decode` vector tiles. A implementation of [Mapbox Vector Ti
 Features:
 - [x] Parse `.mvt`/`.pbf` file to raw vector tile format.
 - [x] Decode vector tile feature to GeoJson format (only GeoJson Feature type).
+- [x] Decode vector tile to GeoJson FeatureCollection format.
 - [x] Encode & create vector tile file from raw format data.
 - [ ] Encode & create vector tile file from GeoJson format data. (TODO)
 
@@ -24,12 +25,12 @@ main() async {
     // Each GeometryType will have different geometry data format
     // So we must explicit check GeometryType and specific generic type here
     if (feature.geometryType == GeometryType.Point) {
-      var geojson = feature.toGeoJson<GeoJsonPoint>(3262, 1923, 12);
+      var geojson = feature.toGeoJson<GeoJsonPoint>(x: 3262, y: 1923, z: 12);
 
       print(geojson.properties);
       print(geojson.geometry.coordinates);
     }
-  }
+  })
 }
 ```
 
@@ -78,13 +79,16 @@ main() async {
 
 ### API
 **Class VectorTile**:
-- (TODO) `toGeoJson`: Convert VectorTile to a FeatureCollection GeoJson. Not implemented yet.
 
-**class VectorTileFeature**:
+- `T toGeoJson<T extends GeoJson>({int x, int y, int z})`: Convert `VectorTile` to a `GeoJson FeatureCollection`. each Feature inside will include **lon/lat** coordinates calculating and will have generic type of [GeoJson class](lib/util/geo_json.dart) 
+because each geometry type will have different coordinates format. So you must given an explicit GeoJson type or do a type cast here (See decode example above).
+
+
+**Class VectorTileFeature**:
 
 - `decodeGeometry()`: Decode geometry data from raw data, this data also will be used later when we call `getGeoJson` method.
-- `T toGeoJson<T extends GeoJson>(int x, int y, int z)`: Convert to GeoJson format include **lon/lat** coordinates calculating, this method will return generic type of [GeoJson class](lib/util/geo_json.dart) 
-because each geometry type will have different coordinates format. So you must given explicit GeoJson type or do a type cast here (See decode example above).
+- `T toGeoJson<T extends GeoJson>({int x, int y, int z})`: Convert `VectorTile Feature` to `GeoJson Feature` format include **lon/lat** coordinates calculating, this method will return generic type of [GeoJson class](lib/util/geo_json.dart) 
+because each geometry type will have different coordinates format. So you must given an explicit GeoJson type or do a type cast here (See decode example above).
 
 ### Sample VectorTile (raw) decoded (as JSON)
 ```json

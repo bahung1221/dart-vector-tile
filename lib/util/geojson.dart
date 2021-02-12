@@ -2,11 +2,15 @@ import 'package:meta/meta.dart';
 import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_value.dart';
 
+enum GeoJsonType {
+  Feature, FeatureCollection  
+}
+
 class GeoJson {
-  final String type = 'Feature';
+  final GeoJsonType type = GeoJsonType.Feature;
   List<Map<String, VectorTileValue>> properties;
 
-  GeoJson({@required this.properties});
+  GeoJson({this.properties});
 }
 
 class GeoJsonPoint extends GeoJson {
@@ -61,4 +65,13 @@ class GeoJsonMultiPolygon extends GeoJson {
     @required properties,
     @required this.geometry
   }) : super(properties: properties);
+}
+
+class GeoJsonFeatureCollection extends GeoJson {
+  final GeoJsonType type = GeoJsonType.FeatureCollection;
+  List<GeoJson> features;
+
+  GeoJsonFeatureCollection({
+    @required this.features
+  }) : super();
 }

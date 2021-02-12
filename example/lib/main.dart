@@ -1,10 +1,18 @@
 import 'package:fixnum/fixnum.dart';
-import 'package:vector_tile/util/geo_json.dart';
-import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_layer.dart';
 
 import '../../lib/vector_tile.dart';
 import '../../lib/raw/raw_vector_tile.dart' as raw;
+
+
+void decodeGeoJsonFeatureCollection() async {
+  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
+
+  GeoJsonFeatureCollection featureCollection = tile.toGeoJson(x: 3262, y: 1923, z: 12);
+
+  print(featureCollection.type); // GeoJsonType.FeatureCollection
+  print(featureCollection.features.length); // 12049
+}
 
 /// Read & Decode given vector tile file
 /// Decode raw features to GeoJson format
@@ -17,7 +25,7 @@ void decodeForEachGeoJsonType() async {
     feature.decodeGeometry();
 
     if (feature.geometryType == GeometryType.Point) {
-      var geojson = feature.toGeoJson<GeoJsonPoint>(3262, 1923, 12);
+      var geojson = feature.toGeoJson<GeoJsonPoint>(x: 3262, y: 1923, z: 12);
 
       print(geojson.type);
       print(geojson.properties);
@@ -26,31 +34,31 @@ void decodeForEachGeoJsonType() async {
     }
 
     if (feature.geometryType == GeometryType.MultiPoint) {
-      var geojson = feature.toGeoJson<GeoJsonMultiPoint>(3262, 1923, 12);
+      var geojson = feature.toGeoJson<GeoJsonMultiPoint>(x: 3262, y: 1923, z: 12);
 
       //...
     }
 
     if (feature.geometryType == GeometryType.LineString) {
-      var geojson = feature.toGeoJson<GeoJsonLineString>(3262, 1923, 12);
+      var geojson = feature.toGeoJson<GeoJsonLineString>(x: 3262, y: 1923, z: 12);
 
       //...
     }
 
     if (feature.geometryType == GeometryType.MultiLineString) {
-      var geojson = feature.toGeoJson<GeoJsonMultiLineString>(3262, 1923, 12);
+      var geojson = feature.toGeoJson<GeoJsonMultiLineString>(x: 3262, y: 1923, z: 12);
 
       //...
     }
 
     if (feature.geometryType == GeometryType.Polygon) {
-      var geojson = feature.toGeoJson<GeoJsonPolygon>(3262, 1923, 12);
+      var geojson = feature.toGeoJson<GeoJsonPolygon>(x: 3262, y: 1923, z: 12);
 
       //...
     }
 
     if (feature.geometryType == GeometryType.MultiPolygon) {
-      var geojson = feature.toGeoJson<GeoJsonMultiPolygon>(3262, 1923, 12);
+      var geojson = feature.toGeoJson<GeoJsonMultiPolygon>(x: 3262, y: 1923, z: 12);
 
       //...
     }
@@ -66,7 +74,7 @@ void decodeForAllGeoJsonType() async {
   VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
 
   layer.features.forEach((feature) {
-    var geojson = feature.toGeoJson(3262, 1923, 12);
+    var geojson = feature.toGeoJson(x: 3262, y: 1923, z: 12);
 
     if (feature.geometryType == GeometryType.Point) {
       print((geojson as GeoJsonPoint).type);
@@ -122,6 +130,7 @@ void encode() async {
 
 main() {
   // encode();
-  // decodeForEachGeoJsonType();
-  decodeForAllGeoJsonType();
+  decodeForEachGeoJsonType();
+  // decodeForAllGeoJsonType();
+  // decodeGeoJsonFeatureCollection();
 }

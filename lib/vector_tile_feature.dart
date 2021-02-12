@@ -4,7 +4,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:meta/meta.dart';
 import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
 import 'package:vector_tile/util/command.dart';
-import 'package:vector_tile/util/geo_json.dart';
+import 'package:vector_tile/util/geojson.dart';
 import 'package:vector_tile/util/geometry.dart';
 import 'package:vector_tile/vector_tile_geom_type.dart';
 import 'package:vector_tile/vector_tile_value.dart';
@@ -112,9 +112,9 @@ class VectorTileFeature {
             coordinates: coords[0].map(
               (ring) =>
                 ring.map(
-                  (point) => point.map((intVal) => intVal.toDouble()),
-                )
-            )
+                  (point) => point.map((intVal) => intVal.toDouble()).toList(),
+                ).toList()
+            ).toList()
           );
           this.geometryType = GeometryType.Polygon;
           break;
@@ -126,10 +126,10 @@ class VectorTileFeature {
               polygon.map(
                 (ring) =>
                   ring.map(
-                    (point) => point.map((intVal) => intVal.toDouble()),
-                  )
-              )
-          )
+                    (point) => point.map((intVal) => intVal.toDouble()).toList(),
+                  ).toList()
+              ).toList()
+          ).toList()
         );
         this.geometryType = GeometryType.MultiPolygon;
         break;
@@ -263,7 +263,7 @@ class VectorTileFeature {
         length = command.count;
 
         if (commandId == CommandID.ClosePath) {
-          coords.add(ring.reversed);
+          coords.add(ring.reversed.toList());
           ring = [];
         }
       } else if (commandId != CommandID.ClosePath) {
@@ -293,7 +293,6 @@ class VectorTileFeature {
   /// Get GeoJson data from this feature
   /// 
   /// x, y, z: is tile numbers and tile zoom
-  /// Normally, you already know that info when you want to parse vector tile files
   /// x, y, z was used to calculate lon/lat pairs
   /// 
   /// Return generic GeoJson type, there are two ways to to read data returned from this method:
@@ -307,7 +306,7 @@ class VectorTileFeature {
   ///     var geojson = feature.toGeoJson(3262, 1923, 12);
   ///     var coordinates = (geojson as GeoJsonPoint).geometry.coordinates;
   ///    ```
-  T toGeoJson<T extends GeoJson>(int x, int y, int z) {
+  T toGeoJson<T extends GeoJson>({@required int x, @required int y, @required int z}) {
     if (this.geometry == null) {
       this.decodeGeometry();
     }
@@ -315,6 +314,30 @@ class VectorTileFeature {
     int size = this.extent * pow(2, z);
     int x0 = this.extent * x;
     int y0 = this.extent * y;
+
+    return this.toGeoJsonWithExtentCalculated<T>(x0: x0, y0: y0, size: size);
+  }
+
+  /// Get GeoJson data from this feature
+  /// 
+  /// x0, y0, size: is tile numbers and tile zoom that already calculated with layer extent
+  /// x0, y0, size was used to calculate lon/lat pairs
+  /// 
+  /// Return generic GeoJson type, there are two ways to to read data returned from this method:
+  /// - Explicit given a generic type:
+  ///    ```
+  ///     var geojson = feature.toGeoJson<GeoJsonPoint>(3262, 1923, 12);
+  ///     var coordinates = geojson.geometry.coordinates;
+  ///    ```
+  /// - Cast to specific GeoJson type after got returned data:
+  ///    ```
+  ///     var geojson = feature.toGeoJson(3262, 1923, 12);
+  ///     var coordinates = (geojson as GeoJsonPoint).geometry.coordinates;
+  ///    ```
+  T toGeoJsonWithExtentCalculated<T extends GeoJson>({@required int x0, @required int y0, @required int size}) {
+    if (this.geometry == null) {
+      this.decodeGeometry();
+    }
 
     switch (this.geometryType) {
       case GeometryType.Point:
