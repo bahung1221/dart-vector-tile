@@ -6,65 +6,54 @@ enum GeoJsonType {
   Feature, FeatureCollection  
 }
 
-class GeoJson {
+class GeoJson<T extends Geometry> {
   final GeoJsonType type = GeoJsonType.Feature;
   List<Map<String, VectorTileValue>> properties;
+  T geometry;
 
-  GeoJson({this.properties});
+  GeoJson({this.properties, this.geometry});
 }
 
-class GeoJsonPoint extends GeoJson {
-  GeometryPoint geometry; 
-
+class GeoJsonPoint extends GeoJson<GeometryPoint> {
   GeoJsonPoint({
     @required properties,
-    @required this.geometry
-  }) : super(properties: properties);
+    @required geometry
+  }) : super(properties: properties, geometry: geometry);
 }
 
-class GeoJsonMultiPoint extends GeoJson {
-  GeometryMultiPoint geometry; 
-
+class GeoJsonMultiPoint extends GeoJson<GeometryMultiPoint> {
   GeoJsonMultiPoint({
     @required properties,
-    @required this.geometry
-  }) : super(properties: properties);
+    @required geometry
+  }) : super(properties: properties, geometry: geometry);
 }
 
-class GeoJsonLineString extends GeoJson {
-  GeometryLineString geometry; 
-
+class GeoJsonLineString extends GeoJson<GeometryLineString> {
   GeoJsonLineString({
     @required properties,
-    @required this.geometry
-  }) : super(properties: properties);
+    @required geometry
+  }) : super(properties: properties, geometry: geometry);
 }
 
-class GeoJsonMultiLineString extends GeoJson {
-  GeometryMultiLineString geometry; 
-
+class GeoJsonMultiLineString extends GeoJson<GeometryMultiLineString> {
   GeoJsonMultiLineString({
     @required properties,
-    @required this.geometry
-  }) : super(properties: properties);
+    @required geometry
+  }) : super(properties: properties, geometry: geometry);
 }
 
-class GeoJsonPolygon extends GeoJson {
-  GeometryPolygon geometry; 
-
+class GeoJsonPolygon extends GeoJson<GeometryPolygon> {
   GeoJsonPolygon({
     @required properties,
-    @required this.geometry
-  }) : super(properties: properties);
+    @required geometry
+  }) : super(properties: properties, geometry: geometry);
 }
 
-class GeoJsonMultiPolygon extends GeoJson {
-  GeometryMultiPolygon geometry; 
-
+class GeoJsonMultiPolygon extends GeoJson<GeometryMultiPolygon> {
   GeoJsonMultiPolygon({
     @required properties,
-    @required this.geometry
-  }) : super(properties: properties);
+    @required geometry
+  }) : super(properties: properties, geometry: geometry);
 }
 
 class GeoJsonFeatureCollection extends GeoJson {
