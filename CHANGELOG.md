@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.4 - 2021-02-13
+
+### Added
+- Add generic type to `GeoJson` class. 
+
+
 ## v0.1.3 - 2021-02-12
 
 ### Added
