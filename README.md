@@ -3,13 +3,14 @@ Package to `encode & decode` vector tiles. A implementation of [Mapbox Vector Ti
 
 Features:
 - [x] Parse `.mvt`/`.pbf` file to raw vector tile format.
-- [x] Decode vector tile feature to GeoJson format (only GeoJson Feature type).
-- [x] Decode vector tile to GeoJson FeatureCollection format.
+- [x] Decode raw vector tile feature to GeoJson format (only GeoJson Feature type).
+- [x] Decode raw vector tile to GeoJson FeatureCollection format.
 - [x] Encode & create vector tile file from raw format data.
 - [ ] Encode & create vector tile file from GeoJson format data. (TODO)
 
 ### Parse & Decode
-Decode an vector tile file, either `.pbf` or `.mvt` should work:
+Parse and then decode each feature to GeoJson from a vector tile file, 
+either `.pbf` or `.mvt` should work:
 
 ```dart
 import 'vector_tile/vector_tile.dart';
