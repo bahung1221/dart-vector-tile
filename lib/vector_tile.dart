@@ -28,14 +28,14 @@ class VectorTile {
     return VectorTile(layers: layers);
   }
 
-  static VectorTile fromGeoJson({
-    @required List<GeoJson> features,
-    @required String layerName,
-    @required String extent,
-    @required String version,
-  }) {
-    // TODO
-  }
+  // static VectorTile fromGeoJson({
+  //   @required List<GeoJson> features,
+  //   @required String layerName,
+  //   @required String extent,
+  //   @required String version,
+  // }) {
+  //   // TODO
+  // }
 
   Future<void> toPath({@required String path}) async {
     

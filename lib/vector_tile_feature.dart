@@ -36,9 +36,9 @@ class VectorTileFeature {
     this.values,
   });
 
-  static VectorTileFeature fromGeoJson(GeoJson geoJson) {
-    // TODO
-  }
+  // static VectorTileFeature fromGeoJson(GeoJson geoJson) {
+  //   // TODO
+  // }
 
   raw.VectorTile_Feature toRaw() {
     return raw.VectorTile_Feature(

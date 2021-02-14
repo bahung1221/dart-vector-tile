@@ -57,7 +57,7 @@ class GeoJsonMultiPolygon extends GeoJson<GeometryMultiPolygon> {
 }
 
 class GeoJsonFeatureCollection extends GeoJson {
-  final GeoJsonType type = GeoJsonType.FeatureCollection;
+  @override final GeoJsonType type = GeoJsonType.FeatureCollection;
   List<GeoJson> features;
 
   GeoJsonFeatureCollection({

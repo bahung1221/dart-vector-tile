@@ -31,6 +31,7 @@ void decodeForEachGeoJsonType() async {
       print(geojson.properties);
       print(geojson.geometry.type);
       print(geojson.geometry.coordinates);
+      print('\n');
     }
 
     if (feature.geometryType == GeometryType.MultiPoint) {

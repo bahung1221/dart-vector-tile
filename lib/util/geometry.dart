@@ -18,7 +18,7 @@ class Geometry {
 }
 
 class GeometryPoint extends Geometry {
-  final type = GeometryType.Point;
+  @override final type = GeometryType.Point;
   List<double> coordinates;
 
   GeometryPoint({
@@ -27,7 +27,7 @@ class GeometryPoint extends Geometry {
 }
 
 class GeometryMultiPoint extends Geometry {
-  final type = GeometryType.MultiPoint;
+  @override final type = GeometryType.MultiPoint;
   List<List<double>> coordinates;
 
   GeometryMultiPoint({
@@ -36,7 +36,7 @@ class GeometryMultiPoint extends Geometry {
 }
 
 class GeometryLineString extends Geometry {
-  final type = GeometryType.LineString;
+  @override final type = GeometryType.LineString;
   List<List<double>> coordinates;
 
   GeometryLineString({
@@ -45,7 +45,7 @@ class GeometryLineString extends Geometry {
 }
 
 class GeometryMultiLineString extends Geometry {
-  final type = GeometryType.MultiLineString;
+  @override final type = GeometryType.MultiLineString;
   List<List<List<double>>> coordinates;
 
   GeometryMultiLineString({
@@ -54,7 +54,7 @@ class GeometryMultiLineString extends Geometry {
 }
 
 class GeometryPolygon extends Geometry {
-  final type = GeometryType.Polygon;
+  @override final type = GeometryType.Polygon;
   List<List<List<double>>> coordinates;
 
   GeometryPolygon({
@@ -63,7 +63,7 @@ class GeometryPolygon extends Geometry {
 }
 
 class GeometryMultiPolygon extends Geometry {
-  final type = GeometryType.MultiPolygon;
+  @override final type = GeometryType.MultiPolygon;
   List<List<List<List<double>>>> coordinates;
 
   GeometryMultiPolygon({

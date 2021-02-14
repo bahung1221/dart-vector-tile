@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.5 - 2021-02-13
+
+- Update linter rules.
+
+
 ## v0.1.4 - 2021-02-13
 
 ### Added
