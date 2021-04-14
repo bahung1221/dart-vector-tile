@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.6 - 2021-04-14
+
+- Add check data type for `layer values` when converting data from raw layer.
+
 ## v0.1.5 - 2021-02-13
 
 - Update linter rules.
