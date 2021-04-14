@@ -24,13 +24,13 @@ class VectorTileLayer {
   static VectorTileLayer fromRaw({@required raw.VectorTile_Layer rawLayer}) {
     List<VectorTileValue> values = rawLayer.values.map((value) {
       return VectorTileValue(
-        stringValue: value.stringValue,
-        floatValue: value.floatValue,
-        doubleValue: value.doubleValue,
-        intValue: value.intValue,
-        uintValue: value.uintValue,
-        sintValue: value.sintValue,
-        boolValue: value.boolValue,
+        stringValue: value.hasStringValue() ? value.stringValue : null,
+        floatValue: value.hasFloatValue() ? value.floatValue : null,
+        doubleValue: value.hasDoubleValue() ? value.doubleValue : null,
+        intValue: value.hasIntValue() ? value.intValue : null,
+        uintValue: value.hasUintValue() ? value.uintValue : null,
+        sintValue: value.hasSintValue() ? value.sintValue : null,
+        boolValue: value.hasBoolValue() ? value.boolValue : null,
       );
     }).toList();
     List<VectorTileFeature> features = rawLayer.features.map((feature) {
