@@ -2,13 +2,13 @@ import 'package:fixnum/fixnum.dart';
 import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
 
 class VectorTileValue {
-  String stringValue;
-  double floatValue;
-  double doubleValue;
-  Int64 intValue;
-  Int64 uintValue;
-  Int64 sintValue;
-  bool boolValue;
+  String? stringValue;
+  double? floatValue;
+  double? doubleValue;
+  Int64? intValue;
+  Int64? uintValue;
+  Int64? sintValue;
+  bool? boolValue;
   
   VectorTileValue({
     this.stringValue,
@@ -32,23 +32,23 @@ class VectorTileValue {
     );
   }
 
-  String get dartStringValue {
+  String? get dartStringValue {
     return this.stringValue;
   }
 
-  Int64 get dartIntValue {
+  Int64? get dartIntValue {
     return this.intValue ?? this.uintValue ?? this.sintValue;
   }
 
-  double get dartDoubleValue {
+  double? get dartDoubleValue {
     if (this.floatValue != null) {
-      return this.floatValue.toDouble();
+      return this.floatValue!.toDouble();
     }
     
     return this.doubleValue;
   }
 
-  bool get dartBoolValue {
+  bool? get dartBoolValue {
     return this.boolValue;
   }
 }

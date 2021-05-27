@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:meta/meta.dart';
 import 'package:vector_tile/vector_tile_layer.dart';
 import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
 import 'package:vector_tile/util/geojson.dart';
@@ -16,10 +15,10 @@ class VectorTile {
   List<VectorTileLayer> layers;
 
   VectorTile({
-    @required this.layers,
+    required this.layers,
   });
 
-  static Future<VectorTile> fromPath({@required String path}) async {
+  static Future<VectorTile> fromPath({required String path}) async {
     raw.VectorTile rawTile = await raw.decodeVectorTile(path: path);
     List<VectorTileLayer> layers = rawTile.layers.map((rawLayer) {
       return VectorTileLayer.fromRaw(rawLayer: rawLayer);
@@ -28,30 +27,19 @@ class VectorTile {
     return VectorTile(layers: layers);
   }
 
-  // static VectorTile fromGeoJson({
-  //   @required List<GeoJson> features,
-  //   @required String layerName,
-  //   @required String extent,
-  //   @required String version,
-  // }) {
-  //   // TODO
-  // }
+  Future<void> toPath({required String path}) async {}
 
-  Future<void> toPath({@required String path}) async {
-    
-  }
-
-  GeoJsonFeatureCollection toGeoJson({@required int x, @required int y, @required int z}) {
-    List<GeoJson> featuresGeoJson = [];
+  GeoJsonFeatureCollection toGeoJson(
+      {required int x, required int y, required int z}) {
+    List<GeoJson?> featuresGeoJson = [];
     this.layers.forEach((layer) {
-      int size = layer.extent * pow(2, z);
+      int size = layer.extent * (pow(2, z) as int);
       int x0 = layer.extent * x;
       int y0 = layer.extent * y;
 
       layer.features.forEach((feature) {
         featuresGeoJson.add(
-          feature.toGeoJsonWithExtentCalculated(x0: x0, y0: y0, size: size)
-        );
+            feature.toGeoJsonWithExtentCalculated(x0: x0, y0: y0, size: size));
       });
     });
 
