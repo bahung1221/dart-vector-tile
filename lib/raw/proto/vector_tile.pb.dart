@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: proto/vector_tile.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -28,13 +28,13 @@ class VectorTile_Value extends $pb.GeneratedMessage {
 
   VectorTile_Value._() : super();
   factory VectorTile_Value({
-    $core.String stringValue,
-    $core.double floatValue,
-    $core.double doubleValue,
-    $fixnum.Int64 intValue,
-    $fixnum.Int64 uintValue,
-    $fixnum.Int64 sintValue,
-    $core.bool boolValue,
+    $core.String? stringValue,
+    $core.double? floatValue,
+    $core.double? doubleValue,
+    $fixnum.Int64? intValue,
+    $fixnum.Int64? uintValue,
+    $fixnum.Int64? sintValue,
+    $core.bool? boolValue,
   }) {
     final _result = create();
     if (stringValue != null) {
@@ -79,7 +79,7 @@ class VectorTile_Value extends $pb.GeneratedMessage {
   static $pb.PbList<VectorTile_Value> createRepeated() => $pb.PbList<VectorTile_Value>();
   @$core.pragma('dart2js:noInline')
   static VectorTile_Value getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VectorTile_Value>(create);
-  static VectorTile_Value _defaultInstance;
+  static VectorTile_Value? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get stringValue => $_getSZ(0);
@@ -156,10 +156,10 @@ class VectorTile_Feature extends $pb.GeneratedMessage {
 
   VectorTile_Feature._() : super();
   factory VectorTile_Feature({
-    $fixnum.Int64 id,
-    $core.Iterable<$core.int> tags,
-    VectorTile_GeomType type,
-    $core.Iterable<$core.int> geometry,
+    $fixnum.Int64? id,
+    $core.Iterable<$core.int>? tags,
+    VectorTile_GeomType? type,
+    $core.Iterable<$core.int>? geometry,
   }) {
     final _result = create();
     if (id != null) {
@@ -195,7 +195,7 @@ class VectorTile_Feature extends $pb.GeneratedMessage {
   static $pb.PbList<VectorTile_Feature> createRepeated() => $pb.PbList<VectorTile_Feature>();
   @$core.pragma('dart2js:noInline')
   static VectorTile_Feature getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VectorTile_Feature>(create);
-  static VectorTile_Feature _defaultInstance;
+  static VectorTile_Feature? _defaultInstance;
 
   @$pb.TagNumber(1)
   $fixnum.Int64 get id => $_getI64(0);
@@ -235,12 +235,12 @@ class VectorTile_Layer extends $pb.GeneratedMessage {
 
   VectorTile_Layer._() : super();
   factory VectorTile_Layer({
-    $core.String name,
-    $core.Iterable<VectorTile_Feature> features,
-    $core.Iterable<$core.String> keys,
-    $core.Iterable<VectorTile_Value> values,
-    $core.int extent,
-    $core.int version,
+    $core.String? name,
+    $core.Iterable<VectorTile_Feature>? features,
+    $core.Iterable<$core.String>? keys,
+    $core.Iterable<VectorTile_Value>? values,
+    $core.int? extent,
+    $core.int? version,
   }) {
     final _result = create();
     if (name != null) {
@@ -282,7 +282,7 @@ class VectorTile_Layer extends $pb.GeneratedMessage {
   static $pb.PbList<VectorTile_Layer> createRepeated() => $pb.PbList<VectorTile_Layer>();
   @$core.pragma('dart2js:noInline')
   static VectorTile_Layer getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VectorTile_Layer>(create);
-  static VectorTile_Layer _defaultInstance;
+  static VectorTile_Layer? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -329,7 +329,7 @@ class VectorTile extends $pb.GeneratedMessage {
 
   VectorTile._() : super();
   factory VectorTile({
-    $core.Iterable<VectorTile_Layer> layers,
+    $core.Iterable<VectorTile_Layer>? layers,
   }) {
     final _result = create();
     if (layers != null) {
@@ -356,7 +356,7 @@ class VectorTile extends $pb.GeneratedMessage {
   static $pb.PbList<VectorTile> createRepeated() => $pb.PbList<VectorTile>();
   @$core.pragma('dart2js:noInline')
   static VectorTile getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VectorTile>(create);
-  static VectorTile _defaultInstance;
+  static VectorTile? _defaultInstance;
 
   @$pb.TagNumber(3)
   $core.List<VectorTile_Layer> get layers => $_getList(0);

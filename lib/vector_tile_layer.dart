@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
 import 'package:vector_tile/vector_tile_geom_type.dart';
 import 'package:vector_tile/vector_tile_feature.dart';
@@ -13,15 +12,15 @@ class VectorTileLayer {
   List<VectorTileFeature> features;
 
   VectorTileLayer({
-    @required this.name,
-    @required this.extent,
-    @required this.version,
-    this.keys,
-    this.values,
-    this.features,
+    required this.name,
+    required this.extent,
+    required this.version,
+    required this.keys,
+    required this.values,
+    required this.features,
   });
 
-  static VectorTileLayer fromRaw({@required raw.VectorTile_Layer rawLayer}) {
+  static VectorTileLayer fromRaw({required raw.VectorTile_Layer rawLayer}) {
     List<VectorTileValue> values = rawLayer.values.map((value) {
       return VectorTileValue(
         stringValue: value.hasStringValue() ? value.stringValue : null,
@@ -44,7 +43,7 @@ class VectorTileLayer {
         values: values,
       );
     }).toList();
-    
+
     return VectorTileLayer(
       name: rawLayer.name,
       extent: rawLayer.extent,

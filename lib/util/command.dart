@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 /// Representation for commands used to encode/decode geometry coordinates
 class CommandID {
   static final int MoveTo = 1;
@@ -12,9 +10,9 @@ class Command {
   int id;
   int count;
 
-  Command({@required this.id, @required this.count});
+  Command({required this.id, required this.count});
 
-  factory Command.CommandInteger({@required int command}) {
+  factory Command.CommandInteger({required int command}) {
     return Command(
       id: command & 0x7,
       count: command >> 3,

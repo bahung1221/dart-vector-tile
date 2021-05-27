@@ -4,7 +4,7 @@ enum VectorTileGeomType {
   UNKNOWN, POINT, LINESTRING, POLYGON
 }
 
-extension VectorTileGeomTypeExtension on VectorTileGeomType {
+extension VectorTileGeomTypeExtension on VectorTileGeomType? {
   raw.VectorTile_GeomType toRaw() {
     switch (this) {
       case VectorTileGeomType.POINT:
