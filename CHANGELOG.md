@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.0 - 2021-05-27
+
+- Add support for null-safety ([#3](https://github.com/saigontek/dart-vector-tile/pull/3)).
+
 ## v0.1.6 - 2021-04-14
 
 - Add check data type for `layer values` when converting data from raw layer.

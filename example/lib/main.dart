@@ -27,10 +27,10 @@ void decodeForEachGeoJsonType() async {
     if (feature.geometryType == GeometryType.Point) {
       var geojson = feature.toGeoJson<GeoJsonPoint>(x: 3262, y: 1923, z: 12);
 
-      print(geojson.type);
-      print(geojson.properties);
-      print(geojson.geometry.type);
-      print(geojson.geometry.coordinates);
+      print(geojson?.type);
+      print(geojson?.properties);
+      print(geojson?.geometry?.type);
+      print(geojson?.geometry?.coordinates);
       print('\n');
     }
 
@@ -68,8 +68,8 @@ void decodeForEachGeoJsonType() async {
 
 /// Read & Decode given vector tile file
 /// Decode raw features to GeoJson format
-/// All GeoJsonType was decode one and 
-/// Then we must use type cast to read each type specific data 
+/// All GeoJsonType was decode one and
+/// Then we must use type cast to read each type specific data
 void decodeForAllGeoJsonType() async {
   VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
   VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
@@ -80,15 +80,15 @@ void decodeForAllGeoJsonType() async {
     if (feature.geometryType == GeometryType.Point) {
       print((geojson as GeoJsonPoint).type);
       print((geojson as GeoJsonPoint).properties);
-      print((geojson as GeoJsonPoint).geometry.type);
-      print((geojson as GeoJsonPoint).geometry.coordinates);
+      print((geojson as GeoJsonPoint).geometry?.type);
+      print((geojson as GeoJsonPoint).geometry?.coordinates);
     }
 
     if (feature.geometryType == GeometryType.MultiPoint) {
       print((geojson as GeoJsonMultiPoint).type);
       print((geojson as GeoJsonMultiPoint).properties);
-      print((geojson as GeoJsonMultiPoint).geometry.type);
-      print((geojson as GeoJsonMultiPoint).geometry.coordinates);
+      print((geojson as GeoJsonMultiPoint).geometry?.type);
+      print((geojson as GeoJsonMultiPoint).geometry?.coordinates);
     }
 
     // Other types ...
@@ -101,7 +101,7 @@ void encode() async {
     raw.createVectorTileValue(intValue: Int64(65)),
     raw.createVectorTileValue(stringValue: 'basketball'),
   ];
-  
+
   var features = [
     raw.createVectorTileFeature(
       id: Int64(31162829580),
@@ -110,7 +110,7 @@ void encode() async {
       geometry: [9, 8058, 1562],
     ),
   ];
-  
+
   var layers = [
     raw.createVectorTileLayer(
       name: 'poi',

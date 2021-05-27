@@ -28,8 +28,8 @@ main() async {
     if (feature.geometryType == GeometryType.Point) {
       var geojson = feature.toGeoJson<GeoJsonPoint>(x: 3262, y: 1923, z: 12);
 
-      print(geojson.properties);
-      print(geojson.geometry.coordinates);
+      print(geojson?.properties);
+      print(geojson?.geometry?.coordinates);
     }
   })
 }
