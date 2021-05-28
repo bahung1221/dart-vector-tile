@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.1 - 2021-05-28
+
+- Add support reading tiles from buffer ([#4](https://github.com/saigontek/dart-vector-tile/pull/4)).
+
 ## v0.2.0 - 2021-05-27
 
 - Add support for null-safety ([#3](https://github.com/saigontek/dart-vector-tile/pull/3)).
