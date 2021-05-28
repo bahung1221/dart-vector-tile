@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:vector_tile/vector_tile_layer.dart';
 import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
@@ -19,11 +21,15 @@ class VectorTile {
   });
 
   static Future<VectorTile> fromPath({required String path}) async {
-    raw.VectorTile rawTile = await raw.decodeVectorTile(path: path);
-    List<VectorTileLayer> layers = rawTile.layers.map((rawLayer) {
+    return fromBytes(bytes: await File(path).readAsBytes());
+  }
+
+  /// decodes the given bytes (`.mvt`/`.pbf`) to a [VectorTile]
+  static VectorTile fromBytes({required Uint8List bytes}) {
+    final tile = raw.VectorTile.fromBuffer(bytes);
+    List<VectorTileLayer> layers = tile.layers.map((rawLayer) {
       return VectorTileLayer.fromRaw(rawLayer: rawLayer);
     }).toList();
-
     return VectorTile(layers: layers);
   }
 
