@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.2 - 2021-05-29
+
+- Avoid decoding geometry more than once ([#5](https://github.com/saigontek/dart-vector-tile/pull/5)).
+
 ## v0.2.1 - 2021-05-28
 
 - Add support reading tiles from buffer ([#4](https://github.com/saigontek/dart-vector-tile/pull/4)).
