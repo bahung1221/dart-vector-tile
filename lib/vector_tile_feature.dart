@@ -58,6 +58,9 @@ class VectorTileFeature {
   ///     var coordinates = (geometry as GeometryPoint).coordinates;
   ///    ```
   T? decodeGeometry<T extends Geometry?>() {
+    if (this.geometry != null) {
+      return this.geometry as T?;
+    }
     this.decodeProperties();
 
     switch (this.type) {
@@ -145,6 +148,9 @@ class VectorTileFeature {
   ///
   /// Return key/value pairs
   List<Map<String, VectorTileValue>> decodeProperties() {
+    if (this.properties != null) {
+      return this.properties!;
+    }
     int length = this.tags.length;
     List<Map<String, VectorTileValue>> properties = [];
 
