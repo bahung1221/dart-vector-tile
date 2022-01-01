@@ -5,7 +5,7 @@ enum GeoJsonType { Feature, FeatureCollection }
 
 class GeoJson<T extends Geometry> {
   final GeoJsonType type = GeoJsonType.Feature;
-  List<Map<String, VectorTileValue>>? properties;
+  Map<String, VectorTileValue>? properties;
   T? geometry;
 
   GeoJson({this.properties, this.geometry});
