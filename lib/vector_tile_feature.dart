@@ -17,7 +17,7 @@ class VectorTileFeature {
   // Decoded properties
   GeometryType? geometryType;
   Geometry? geometry;
-  List<Map<String, VectorTileValue>>? properties;
+  Map<String, VectorTileValue>? properties;
 
   // Additional
   int? extent;
@@ -147,21 +147,18 @@ class VectorTileFeature {
   /// Decode properties from feature tags and key/value pairs got from parent layer
   ///
   /// Return key/value pairs
-  List<Map<String, VectorTileValue>> decodeProperties() {
+  Map<String, VectorTileValue> decodeProperties() {
     if (this.properties != null) {
       return this.properties!;
     }
     int length = this.tags.length;
-    List<Map<String, VectorTileValue>> properties = [];
+    Map<String, VectorTileValue> properties = {};
 
-    for (int i = 0; i < length;) {
+    for (int i = 0; i < length; i += 2) {
       int keyIndex = this.tags[i];
       int valueIndex = this.tags[i + 1];
 
-      properties.add({
-        this.keys![keyIndex]: this.values![valueIndex],
-      });
-      i = i + 2;
+      properties[this.keys![keyIndex]] = this.values![valueIndex];
     }
 
     this.properties = properties;
