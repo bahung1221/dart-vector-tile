@@ -1,6 +1,6 @@
 import 'package:vector_tile/raw/raw_vector_tile.dart' as raw;
-import 'package:vector_tile/vector_tile_geom_type.dart';
 import 'package:vector_tile/vector_tile_feature.dart';
+import 'package:vector_tile/vector_tile_geom_type.dart';
 import 'package:vector_tile/vector_tile_value.dart';
 
 class VectorTileLayer {
@@ -21,17 +21,8 @@ class VectorTileLayer {
   });
 
   static VectorTileLayer fromRaw({required raw.VectorTile_Layer rawLayer}) {
-    List<VectorTileValue> values = rawLayer.values.map((value) {
-      return VectorTileValue(
-        stringValue: value.hasStringValue() ? value.stringValue : null,
-        floatValue: value.hasFloatValue() ? value.floatValue : null,
-        doubleValue: value.hasDoubleValue() ? value.doubleValue : null,
-        intValue: value.hasIntValue() ? value.intValue : null,
-        uintValue: value.hasUintValue() ? value.uintValue : null,
-        sintValue: value.hasSintValue() ? value.sintValue : null,
-        boolValue: value.hasBoolValue() ? value.boolValue : null,
-      );
-    }).toList();
+    List<VectorTileValue> values =
+        rawLayer.values.map((value) => VectorTileValue.fromRaw(value)).toList();
     List<VectorTileFeature> features = rawLayer.features.map((feature) {
       return VectorTileFeature(
         id: feature.id,
