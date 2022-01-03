@@ -137,8 +137,24 @@ because each geometry type will have different coordinates format. So you must g
   "type": "Feature",
   "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
   "properties": {
-    "render_height": 65,
-    "name": "basketball"
+    "render_height": {
+      "stringValue": null,
+      "floatValue": null,
+      "doubleValue": null,
+      "intValue": 65,
+      "uintValue": null,
+      "sintValue": null,
+      "boolValue": null
+    },
+    "name": {
+      "stringValue": "basketball",
+      "floatValue": null,
+      "doubleValue": null,
+      "intValue": null,
+      "uintValue": null,
+      "sintValue": null,
+      "boolValue": null
+    }
   }
 }
 ```

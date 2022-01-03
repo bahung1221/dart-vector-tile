@@ -1,6 +1,11 @@
 # Changelog
 
-## v0.3.0 - 2021-05-29
+## v0.3.1 - 2021-01-03
+
+- (Improvement memory usage) Change data structure for VectorTileValue. 
+([#7](https://github.com/saigontek/dart-vector-tile/pull/7)).
+
+## v0.3.0 - 2022-01-01
 
 - (Breaking change - Improvement memory usage) Change data type for feature's properties from List<Map> to Map 
 ([#6](https://github.com/saigontek/dart-vector-tile/pull/6)).

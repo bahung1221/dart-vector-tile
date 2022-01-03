@@ -15,41 +15,6 @@ class VectorTileValue {
   final ValueType type;
   final Object value;
 
-  String? get stringValue {
-    final value = this.value;
-    return value is String ? value : null;
-  }
-
-  double? get floatValue {
-    final value = this.value;
-    return type == ValueType.float ? value as double : null;
-  }
-
-  double? get doubleValue {
-    final value = this.value;
-    return type == ValueType.double ? value as double : null;
-  }
-
-  Int64? get intValue {
-    final value = this.value;
-    return type == ValueType.int ? value as Int64 : null;
-  }
-
-  Int64? get uintValue {
-    final value = this.value;
-    return type == ValueType.uint ? value as Int64 : null;
-  }
-
-  Int64? get sintValue {
-    final value = this.value;
-    return type == ValueType.sint ? value as Int64 : null;
-  }
-
-  bool? get boolValue {
-    final value = this.value;
-    return value is bool ? value : null;
-  }
-
   VectorTileValue.from(this.type, this.value);
 
   factory VectorTileValue({
@@ -127,6 +92,41 @@ class VectorTileValue {
       case ValueType.bool:
         return raw.VectorTile_Value(boolValue: value as bool);
     }
+  }
+
+  String? get stringValue {
+    final value = this.value;
+    return value is String ? value : null;
+  }
+
+  double? get floatValue {
+    final value = this.value;
+    return type == ValueType.float ? value as double : null;
+  }
+
+  double? get doubleValue {
+    final value = this.value;
+    return type == ValueType.double ? value as double : null;
+  }
+
+  Int64? get intValue {
+    final value = this.value;
+    return type == ValueType.int ? value as Int64 : null;
+  }
+
+  Int64? get uintValue {
+    final value = this.value;
+    return type == ValueType.uint ? value as Int64 : null;
+  }
+
+  Int64? get sintValue {
+    final value = this.value;
+    return type == ValueType.sint ? value as Int64 : null;
+  }
+
+  bool? get boolValue {
+    final value = this.value;
+    return value is bool ? value : null;
   }
 
   String? get dartStringValue {
