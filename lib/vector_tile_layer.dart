@@ -21,8 +21,9 @@ class VectorTileLayer {
   });
 
   static VectorTileLayer fromRaw({required raw.VectorTile_Layer rawLayer}) {
-    List<VectorTileValue> values =
-        rawLayer.values.map((value) => VectorTileValue.fromRaw(value)).toList();
+    List<VectorTileValue> values = rawLayer.values
+        .map((value) => VectorTileValue.fromRaw(value))
+        .toList(growable: false);
     List<VectorTileFeature> features = rawLayer.features.map((feature) {
       return VectorTileFeature(
         id: feature.id,
@@ -33,7 +34,7 @@ class VectorTileLayer {
         keys: rawLayer.keys,
         values: values,
       );
-    }).toList();
+    }).toList(growable: false);
 
     return VectorTileLayer(
       name: rawLayer.name,

@@ -69,8 +69,9 @@ class VectorTileFeature {
 
         if (coords.length <= 1) {
           this.geometry = Geometry.Point(
-              coordinates:
-                  coords[0].map((intVal) => intVal.toDouble()).toList());
+              coordinates: coords[0]
+                  .map((intVal) => intVal.toDouble())
+                  .toList(growable: false));
           this.geometryType = GeometryType.Point;
           break;
         }
@@ -88,10 +89,11 @@ class VectorTileFeature {
           this.geometry = Geometry.LineString(
               coordinates: coords[0]
                   .map(
-                    (point) =>
-                        point.map((intVal) => intVal.toDouble()).toList(),
+                    (point) => point
+                        .map((intVal) => intVal.toDouble())
+                        .toList(growable: false),
                   )
-                  .toList());
+                  .toList(growable: false));
           this.geometryType = GeometryType.LineString;
           break;
         }
@@ -100,11 +102,12 @@ class VectorTileFeature {
             coordinates: coords
                 .map((line) => line
                     .map(
-                      (point) =>
-                          point.map((intVal) => intVal.toDouble()).toList(),
+                      (point) => point
+                          .map((intVal) => intVal.toDouble())
+                          .toList(growable: false),
                     )
-                    .toList())
-                .toList());
+                    .toList(growable: false))
+                .toList(growable: false));
         this.geometryType = GeometryType.MultiLineString;
         break;
       case VectorTileGeomType.POLYGON:
@@ -115,11 +118,12 @@ class VectorTileFeature {
               coordinates: coords[0]
                   .map((ring) => ring
                       .map(
-                        (point) =>
-                            point.map((intVal) => intVal.toDouble()).toList(),
+                        (point) => point
+                            .map((intVal) => intVal.toDouble())
+                            .toList(growable: false),
                       )
-                      .toList())
-                  .toList());
+                      .toList(growable: false))
+                  .toList(growable: false));
           this.geometryType = GeometryType.Polygon;
           break;
         }
@@ -129,12 +133,13 @@ class VectorTileFeature {
                 .map((polygon) => polygon
                     .map((ring) => ring
                         .map(
-                          (point) =>
-                              point.map((intVal) => intVal.toDouble()).toList(),
+                          (point) => point
+                              .map((intVal) => intVal.toDouble())
+                              .toList(growable: false),
                         )
-                        .toList())
-                    .toList())
-                .toList());
+                        .toList(growable: false))
+                    .toList(growable: false))
+                .toList(growable: false));
         this.geometryType = GeometryType.MultiPolygon;
         break;
       default:
@@ -265,7 +270,7 @@ class VectorTileFeature {
         length = command.count;
 
         if (commandId == CommandID.ClosePath) {
-          coords.add(ring.reversed.toList());
+          coords.add(ring.reversed.toList(growable: false));
           ring = [];
         }
       } else if (commandId != CommandID.ClosePath) {
@@ -374,7 +379,7 @@ class VectorTileFeature {
             (this.geometry as GeometryMultiLineString)
                 .coordinates
                 .map((line) => this._project(size, x0, y0, line))
-                .toList();
+                .toList(growable: false);
 
         return GeoJsonMultiLineString(
           geometry: this.geometry,
@@ -385,7 +390,7 @@ class VectorTileFeature {
             (this.geometry as GeometryPolygon)
                 .coordinates
                 .map((line) => this._project(size, x0, y0, line))
-                .toList();
+                .toList(growable: false);
 
         return GeoJsonPolygon(
           geometry: this.geometry,
@@ -397,8 +402,8 @@ class VectorTileFeature {
                 .coordinates!
                 .map((polygon) => polygon
                     .map((ring) => this._project(size, x0, y0, ring))
-                    .toList())
-                .toList();
+                    .toList(growable: false))
+                .toList(growable: false);
 
         return GeoJsonMultiPolygon(
           geometry: this.geometry,
@@ -413,8 +418,9 @@ class VectorTileFeature {
   /// Convert list of point into lon/lat points
   List<List<double>> _project(size, x0, y0, List<List<double>> line) {
     // Deep clone
-    List<List<double>> result =
-        line.map((point) => point.map((val) => val).toList()).toList();
+    List<List<double>> result = line
+        .map((point) => point.map((val) => val).toList(growable: false))
+        .toList(growable: false);
 
     for (var i = 0; i < line.length; i++) {
       List<double> point = line[i];
