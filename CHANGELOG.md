@@ -1,6 +1,11 @@
 # Changelog
 
-## v0.3.1 - 2021-01-03
+## v0.3.2 - 2022-01-21
+
+- (Improvement memory usage) Use fixed size lists instead of growable lists. 
+([#8](https://github.com/saigontek/dart-vector-tile/pull/8)).
+
+## v0.3.1 - 2022-01-03
 
 - (Improvement memory usage) Change data structure for VectorTileValue. 
 ([#7](https://github.com/saigontek/dart-vector-tile/pull/7)).
