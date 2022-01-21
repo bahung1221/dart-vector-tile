@@ -29,7 +29,7 @@ class VectorTile {
     final tile = raw.VectorTile.fromBuffer(bytes);
     List<VectorTileLayer> layers = tile.layers.map((rawLayer) {
       return VectorTileLayer.fromRaw(rawLayer: rawLayer);
-    }).toList();
+    }).toList(growable: false);
     return VectorTile(layers: layers);
   }
 
