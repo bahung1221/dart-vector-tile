@@ -1,5 +1,45 @@
 # Changelog
 
+## v1.0.0 - 2022-07-28
+
+- Add web platform support ([#10](https://github.com/saigontek/dart-vector-tile/pull/10)).
+
+**Breaking changes**:
+- Remove `VectorTile.fromPath`, `encodeVectorTile`, `decodeVectorTile` methods. (Read the migrate guide below to update your code).
+
+**Migrate guide**:
+- `VectorTile.fromPath`:
+
+```dart
+// Old
+final tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
+
+// New
+final tileData = await File('../data/sample-12-3262-1923.pbf').readAsBytes();
+final tile = await VectorTile.fromBytes(bytes: tileData);
+```
+
+- `encodeVectorTile`:
+
+```dart
+// Old
+await encodeVectorTile(path: './gen/tile.pbf', tile: tile);
+
+// New
+await File('./gen/tile.pbf').writeAsBytes(tile.writeToBuffer());
+```
+
+- `decodeVectorTile`:
+
+```dart
+// Old
+final tile = decodeVectorTile(path: '../data/sample-12-3262-1923.pbf')
+
+// New
+final tileData = await File('../data/sample-12-3262-1923.pbf').readAsBytes();
+final tile = await VectorTile.fromBuffer(tileData)
+```
+
 ## v0.3.2 - 2022-01-21
 
 - (Improvement memory usage) Use fixed size lists instead of growable lists. 

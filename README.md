@@ -17,8 +17,8 @@ import 'vector_tile/vector_tile.dart';
 
 main() async {
   final tileData = await File('../data/sample-12-3262-1923.pbf').readAsBytes();
-  VectorTile tile = await VectorTile.fromPathfromBytes(bytes: tileData);
-  VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'transportation');
+  final tile = await VectorTile.fromBytes(bytes: tileData);
+  final layer = tile.layers.firstWhere((layer) => layer.name == 'transportation');
 
   layer.features.forEach((feature) {
     // Geometry will be decode on-demand to avoid redundant calculating
