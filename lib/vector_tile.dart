@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -19,10 +18,6 @@ class VectorTile {
   VectorTile({
     required this.layers,
   });
-
-  static Future<VectorTile> fromPath({required String path}) async {
-    return fromBytes(bytes: await File(path).readAsBytes());
-  }
 
   /// decodes the given bytes (`.mvt`/`.pbf`) to a [VectorTile]
   static VectorTile fromBytes({required Uint8List bytes}) {

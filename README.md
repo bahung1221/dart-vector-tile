@@ -16,7 +16,8 @@ either `.pbf` or `.mvt` should work:
 import 'vector_tile/vector_tile.dart';
 
 main() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
+  final tileData = await File('../data/sample-12-3262-1923.pbf').readAsBytes();
+  VectorTile tile = await VectorTile.fromPathfromBytes(bytes: tileData);
   VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'transportation');
 
   layer.features.forEach((feature) {
@@ -74,7 +75,7 @@ main() async {
   var tile = createVectorTile(layers: layers);
 
   // Save to disk
-  await encodeVectorTile(path: './gen/tile.pbf', tile: tile);
+  await File('./gen/tile.pbf').writeAsBytes(tile.writeToBuffer());
 }
 ```
 
