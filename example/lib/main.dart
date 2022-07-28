@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fixnum/fixnum.dart';
 import 'package:vector_tile/vector_tile_layer.dart';
 
@@ -6,7 +8,8 @@ import '../../lib/raw/raw_vector_tile.dart' as raw;
 
 
 void decodeGeoJsonFeatureCollection() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
+  final tileData = await File('../data/sample-12-3262-1923.pbf').readAsBytes();
+  final tile = await VectorTile.fromBytes(bytes: tileData);
 
   GeoJsonFeatureCollection featureCollection = tile.toGeoJson(x: 3262, y: 1923, z: 12);
 
@@ -18,8 +21,9 @@ void decodeGeoJsonFeatureCollection() async {
 /// Decode raw features to GeoJson format
 /// Each GeoJsonType was decode separate
 void decodeForEachGeoJsonType() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
-  VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
+  final tileData = await File('../data/sample-12-3262-1923.pbf').readAsBytes();
+  final tile = await VectorTile.fromBytes(bytes: tileData);
+  final layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
 
   layer.features.forEach((feature) {
     feature.decodeGeometry();
@@ -71,8 +75,9 @@ void decodeForEachGeoJsonType() async {
 /// All GeoJsonType was decode one and
 /// Then we must use type cast to read each type specific data
 void decodeForAllGeoJsonType() async {
-  VectorTile tile = await VectorTile.fromPath(path: '../data/sample-12-3262-1923.pbf');
-  VectorTileLayer layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
+  final tileData = await File('../data/sample-12-3262-1923.pbf').readAsBytes();
+  final tile = await VectorTile.fromBytes(bytes: tileData);
+  final layer = tile.layers.firstWhere((layer) => layer.name == 'poi');
 
   layer.features.forEach((feature) {
     var geojson = feature.toGeoJson(x: 3262, y: 1923, z: 12);
@@ -125,13 +130,13 @@ void encode() async {
   var tile = raw.createVectorTile(layers: layers);
 
   // Save to disk
-  await raw.encodeVectorTile(path: '../gen/tile.pbf', tile: tile);
+  await File('../gen/tile.pbf').writeAsBytes(tile.writeToBuffer());
 }
 
 
 main() {
-  // encode();
-  decodeForEachGeoJsonType();
+   encode();
+   decodeForEachGeoJsonType();
   // decodeForAllGeoJsonType();
   // decodeGeoJsonFeatureCollection();
 }

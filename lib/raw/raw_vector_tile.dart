@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:fixnum/fixnum.dart';
 import './proto/vector_tile.pb.dart';
 
@@ -92,24 +91,4 @@ VectorTile createVectorTile({
   required List<VectorTile_Layer> layers,
 }) {
   return VectorTile(layers: layers);
-}
-
-/// Encode `VectorTile` to buffer and then save it to disk
-Future<void> encodeVectorTile({
-  required String path,
-  required VectorTile tile,
-}) async {
-  File file = File(path);
-
-  await file.writeAsBytes(tile.writeToBuffer());
-}
-
-/// Read an vector tile (`.mvt`/`.pbf`) file from disk,
-/// Then decode it into `VectorTile` instance
-Future<VectorTile> decodeVectorTile({required String path}) async {
-  File file = File(path);
-
-  return VectorTile.fromBuffer(
-    await file.readAsBytes(),
-  );
 }
