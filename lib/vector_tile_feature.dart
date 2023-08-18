@@ -445,12 +445,11 @@ class VectorTileFeature {
 
   /// Implements https://en.wikipedia.org/wiki/Shoelace_formula
   bool _isCCW({required List<List<int>> ring}) {
-    int i = -1;
-    int ccw = ring.sublist(1, ring.length - 1).fold(0, (sum, point) {
-      i++;
-      return sum + (point[0] - ring[i][0]) * (point[1] + ring[i][1]);
-    });
-
-    return ccw < 0;
+    final ringLength = ring.length;
+    var sum = 0;
+    for (var i = 0, j = ringLength - 1; i < ringLength; j = i++) {
+      sum += (ring[i][0] - ring[j][0]) * (ring[i][1] + ring[j][1]);
+    }
+    return sum < 0;
   }
 }
