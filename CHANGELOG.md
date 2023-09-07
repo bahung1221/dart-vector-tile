@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.0 - 2023-09-7
+
+- Updated dependencies
+
 ## v1.0.0 - 2022-07-28
 
 - Add web platform support ([#10](https://github.com/saigontek/dart-vector-tile/pull/10)).
