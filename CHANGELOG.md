@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.1 - 2025-05-11
+
+- Fix zigZagDecode for JS targets ([#18](https://github.com/bahung1221/dart-vector-tile/pull/18)). Thanks to @mutagene .
+
 ## v2.0.0 - 2023-09-7
 
 - Updated dependencies
