@@ -19,11 +19,19 @@ class Command {
     );
   }
 
+  static final bool _isRunningAsJs = identical(0, 0.0);
+
   static int zigZagEncode(int val) {
     return (val << 1) ^ (val >> 31);
   }
 
   static int zigZagDecode(int parameterInteger) {
-    return ((parameterInteger >> 1) ^ (-(parameterInteger & 1)));
+    if (_isRunningAsJs) {
+      final isNegative = (parameterInteger & 1) == 1;
+      final base = parameterInteger ~/ 2;
+      return isNegative ? -base - 1 : base;
+    } else {
+      return ((parameterInteger >> 1) ^ (-(parameterInteger & 1)));
+    }
   }
 }
