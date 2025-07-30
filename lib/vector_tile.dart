@@ -33,7 +33,7 @@ class VectorTile {
   GeoJsonFeatureCollection toGeoJson(
       {required int x, required int y, required int z}) {
     List<GeoJson?> featuresGeoJson = [];
-    for (var layer in this.layers) {
+    for (final layer in this.layers) {
       int size = layer.extent * (pow(2, z) as int);
       int x0 = layer.extent * x;
       int y0 = layer.extent * y;
