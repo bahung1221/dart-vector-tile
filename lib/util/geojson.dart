@@ -12,33 +12,27 @@ class GeoJson<T extends Geometry> {
 }
 
 class GeoJsonPoint extends GeoJson<GeometryPoint> {
-  GeoJsonPoint({required properties, required geometry})
-      : super(properties: properties, geometry: geometry);
+  GeoJsonPoint({super.properties, super.geometry});
 }
 
 class GeoJsonMultiPoint extends GeoJson<GeometryMultiPoint> {
-  GeoJsonMultiPoint({required properties, required geometry})
-      : super(properties: properties, geometry: geometry);
+  GeoJsonMultiPoint({super.properties, super.geometry});
 }
 
 class GeoJsonLineString extends GeoJson<GeometryLineString> {
-  GeoJsonLineString({required properties, required geometry})
-      : super(properties: properties, geometry: geometry);
+  GeoJsonLineString({super.properties, super.geometry});
 }
 
 class GeoJsonMultiLineString extends GeoJson<GeometryMultiLineString> {
-  GeoJsonMultiLineString({required properties, required geometry})
-      : super(properties: properties, geometry: geometry);
+  GeoJsonMultiLineString({super.properties, super.geometry});
 }
 
 class GeoJsonPolygon extends GeoJson<GeometryPolygon> {
-  GeoJsonPolygon({required properties, required geometry})
-      : super(properties: properties, geometry: geometry);
+  GeoJsonPolygon({super.properties, super.geometry});
 }
 
 class GeoJsonMultiPolygon extends GeoJson<GeometryMultiPolygon> {
-  GeoJsonMultiPolygon({required properties, required geometry})
-      : super(properties: properties, geometry: geometry);
+  GeoJsonMultiPolygon({super.properties, super.geometry});
 }
 
 class GeoJsonFeatureCollection extends GeoJson {
