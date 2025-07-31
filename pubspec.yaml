@@ -1,13 +1,13 @@
 name: vector_tile
-version: 2.0.1
+version: 2.0.2
 description: >-
   A simple Dart package to encode & decode Mapbox Vector Tile, A implementation of Mapbox Vector Tile specification.
 homepage: https://github.com/saigontek/dart-vector-tile
 documentation: https://github.com/saigontek/dart-vector-tile
 environment:
-  sdk: '>=2.19.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 dependencies:
-  fixnum: ^1.0.0
-  protobuf: ^3.0.0
+  fixnum: ^1.1.1
+  protobuf: ^4.1.1
 dev_dependencies:
-  pedantic: ^1.0.0
+  lints: ^6.0.0

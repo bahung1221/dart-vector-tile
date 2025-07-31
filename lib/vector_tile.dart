@@ -33,16 +33,16 @@ class VectorTile {
   GeoJsonFeatureCollection toGeoJson(
       {required int x, required int y, required int z}) {
     List<GeoJson?> featuresGeoJson = [];
-    this.layers.forEach((layer) {
+    for (final layer in this.layers) {
       int size = layer.extent * (pow(2, z) as int);
       int x0 = layer.extent * x;
       int y0 = layer.extent * y;
 
-      layer.features.forEach((feature) {
+      for (final feature in layer.features) {
         featuresGeoJson.add(
             feature.toGeoJsonWithExtentCalculated(x0: x0, y0: y0, size: size));
-      });
-    });
+      }
+    }
 
     return GeoJsonFeatureCollection(features: featuresGeoJson);
   }

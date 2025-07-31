@@ -182,7 +182,7 @@ class VectorTileFeature {
     List<List<int>> coords = [];
     List<int> point = [];
 
-    this.geometryList!.forEach((commandInt) {
+    for (final commandInt in this.geometryList ?? []) {
       if (length <= 0) {
         Command command = Command.CommandInteger(command: commandInt);
 
@@ -205,7 +205,7 @@ class VectorTileFeature {
         coords.add(point);
         point = [];
       }
-    });
+    }
 
     return coords;
   }
@@ -222,7 +222,7 @@ class VectorTileFeature {
     List<List<List<int>>> coords = [];
     List<List<int>> ring = [];
 
-    this.geometryList!.forEach((commandInt) {
+    for (final commandInt in this.geometryList ?? []) {
       if (length <= 0) {
         Command command = Command.CommandInteger(command: commandInt);
 
@@ -244,7 +244,7 @@ class VectorTileFeature {
         coords.add(ring);
         ring = [];
       }
-    });
+    }
 
     return coords;
   }
@@ -262,7 +262,7 @@ class VectorTileFeature {
     List<List<List<int>>> coords = [];
     List<List<int>> ring = [];
 
-    this.geometryList!.forEach((commandInt) {
+    for (final commandInt in this.geometryList ?? []) {
       if (length <= 0 || commandId == CommandID.ClosePath) {
         Command command = Command.CommandInteger(command: commandInt);
 
@@ -291,7 +291,7 @@ class VectorTileFeature {
           coords = [];
         }
       }
-    });
+    }
 
     polygons.add(coords);
     return polygons;
@@ -350,63 +350,69 @@ class VectorTileFeature {
 
     switch (this.geometryType) {
       case GeometryType.Point:
-        (this.geometry as GeometryPoint).coordinates = this._projectPoint(
-            size, x0, y0, (this.geometry as GeometryPoint).coordinates);
+        final geometryPoint = this.geometry as GeometryPoint;
+
+        geometryPoint.coordinates =
+            this._projectPoint(size, x0, y0, geometryPoint.coordinates);
 
         return GeoJsonPoint(
-          geometry: this.geometry,
+          geometry: geometryPoint,
           properties: this.properties,
         ) as T;
       case GeometryType.MultiPoint:
-        (this.geometry as GeometryMultiPoint).coordinates = this._project(
-            size, x0, y0, (this.geometry as GeometryMultiPoint).coordinates);
+        final geometryMultiPoint = this.geometry as GeometryMultiPoint;
+
+        geometryMultiPoint.coordinates =
+            this._project(size, x0, y0, geometryMultiPoint.coordinates);
 
         return GeoJsonMultiPoint(
-          geometry: this.geometry,
+          geometry: geometryMultiPoint,
           properties: this.properties,
         ) as T;
       case GeometryType.LineString:
-        (this.geometry as GeometryLineString).coordinates = this._project(
-            size, x0, y0, (this.geometry as GeometryLineString).coordinates);
+        final geometryLineString = this.geometry as GeometryLineString;
+
+        geometryLineString.coordinates =
+            this._project(size, x0, y0, geometryLineString.coordinates);
 
         return GeoJsonLineString(
-          geometry: this.geometry,
+          geometry: geometryLineString,
           properties: this.properties,
         ) as T;
 
       case GeometryType.MultiLineString:
-        (this.geometry as GeometryMultiLineString).coordinates =
-            (this.geometry as GeometryMultiLineString)
-                .coordinates
-                .map((line) => this._project(size, x0, y0, line))
-                .toList(growable: false);
+        final geometryLineString = this.geometry as GeometryMultiLineString;
+
+        geometryLineString.coordinates = geometryLineString.coordinates
+            .map((line) => this._project(size, x0, y0, line))
+            .toList(growable: false);
 
         return GeoJsonMultiLineString(
-          geometry: this.geometry,
+          geometry: geometryLineString,
           properties: this.properties,
         ) as T;
       case GeometryType.Polygon:
-        (this.geometry as GeometryPolygon).coordinates =
-            (this.geometry as GeometryPolygon)
-                .coordinates
-                .map((line) => this._project(size, x0, y0, line))
-                .toList(growable: false);
+        final geometryPolygon = this.geometry as GeometryPolygon;
+
+        geometryPolygon.coordinates = geometryPolygon.coordinates
+            .map((line) => this._project(size, x0, y0, line))
+            .toList(growable: false);
 
         return GeoJsonPolygon(
-          geometry: this.geometry,
+          geometry: geometryPolygon,
           properties: this.properties,
         ) as T;
       case GeometryType.MultiPolygon:
-        (this.geometry as GeometryMultiPolygon).coordinates =
-            (this.geometry as GeometryMultiPolygon)
-                .coordinates!
-                .map((polygon) => polygon
-                    .map((ring) => this._project(size, x0, y0, ring))
-                    .toList(growable: false))
-                .toList(growable: false);
+        final geometryMultiPolygon = this.geometry as GeometryMultiPolygon;
+
+        geometryMultiPolygon.coordinates = geometryMultiPolygon.coordinates
+            ?.map((polygon) => polygon
+                .map((ring) => this._project(size, x0, y0, ring))
+                .toList(growable: false))
+            .toList(growable: false);
 
         return GeoJsonMultiPolygon(
-          geometry: this.geometry,
+          geometry: geometryMultiPolygon,
           properties: this.properties,
         ) as T;
       default:
@@ -416,7 +422,7 @@ class VectorTileFeature {
   }
 
   /// Convert list of point into lon/lat points
-  List<List<double>> _project(size, x0, y0, List<List<double>> line) {
+  List<List<double>> _project(num size, num x0, num y0, List<List<double>> line) {
     // Deep clone
     List<List<double>> result = line
         .map((point) => point.map((val) => val).toList(growable: false))
@@ -434,7 +440,7 @@ class VectorTileFeature {
   ///
   /// See `Tile numbers to lon./lat.` section in documentation link below
   /// @docs: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
-  List<double> _projectPoint(size, x0, y0, List<double> point) {
+  List<double> _projectPoint(num size, num x0, num y0, List<double> point) {
     double y2 = 180 - (point[1] + y0) * 360 / size;
 
     return [
