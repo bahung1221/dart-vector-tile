@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.0 - 2025-05-11
+
+- Migrate dependencies and increase the minimum version required of Dart SDK ([#18](https://github.com/bahung1221/dart-vector-tile/pull/20)). Thanks to @DanielBerrioB .
+
 ## v2.0.1 - 2025-05-11
 
 - Fix zigZagDecode for JS targets ([#18](https://github.com/bahung1221/dart-vector-tile/pull/18)). Thanks to @mutagene .
