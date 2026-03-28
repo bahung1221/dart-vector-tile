@@ -11,6 +11,7 @@ dependencies:
   protobuf: ^6.0.0
 dev_dependencies:
   lints: ^6.0.0
-  build_runner: ^2.0.0  # Build tool runner
+  test: ^1.25.0
+  build_runner: ^2.0.0
   protoc_plugin: ^25.0.0
   protoc_builder: ^0.4.1
