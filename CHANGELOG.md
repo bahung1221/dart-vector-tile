@@ -1,8 +1,17 @@
 # Changelog
 
+## v4.0.0 - 2026-03-28
+
+- Migrate to protobuf v6 and regenerate proto files with protoc_plugin 25.0.0 ([#21](https://github.com/bahung1221/dart-vector-tile/pull/21)). Thanks to @Numerok .
+- Add build_runner and protoc_builder for proto code generation.
+
+## v3.0.1 - 2025-05-11
+
+- Relax protobuf constraint to ^5.1.0 ([#22](https://github.com/bahung1221/dart-vector-tile/pull/22)). Thanks to @connor-goTenna .
+
 ## v3.0.0 - 2025-05-11
 
-- Migrate dependencies and increase the minimum version required of Dart SDK ([#18](https://github.com/bahung1221/dart-vector-tile/pull/20)). Thanks to @DanielBerrioB .
+- Migrate dependencies and increase the minimum version required of Dart SDK ([#20](https://github.com/bahung1221/dart-vector-tile/pull/20)). Thanks to @DanielBerrioB .
 
 ## v2.0.1 - 2025-05-11
 

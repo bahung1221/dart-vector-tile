@@ -77,9 +77,11 @@ class VectorTileFeature {
         }
 
         this.geometry = Geometry.MultiPoint(
-            coordinates:
-                coords.map((coord) => coord.map((intVal) => intVal.toDouble()))
-                    as List<List<double>>);
+            coordinates: coords
+                .map((coord) => coord
+                    .map((intVal) => intVal.toDouble())
+                    .toList(growable: false))
+                .toList(growable: false));
         this.geometryType = GeometryType.MultiPoint;
         break;
       case VectorTileGeomType.LINESTRING:
@@ -191,19 +193,13 @@ class VectorTileFeature {
       } else if (commandId != CommandID.ClosePath) {
         if (isX) {
           x += Command.zigZagDecode(commandInt);
-          point.add(x);
           isX = false;
         } else {
           y += Command.zigZagDecode(commandInt);
-          point.add(y);
+          coords.add([x, y]);
           length -= 1;
           isX = true;
         }
-      }
-
-      if (length <= 0) {
-        coords.add(point);
-        point = [];
       }
     }
 
