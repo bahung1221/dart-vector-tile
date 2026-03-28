@@ -1,6 +1,6 @@
 // This is a generated file - do not edit.
 //
-// Generated from raw/proto/vector_tile.proto.
+// Generated from vector_tile.proto.
 
 // @dart = 3.3
 
